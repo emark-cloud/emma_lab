@@ -1,26 +1,127 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ============================================
+   Emma Lab — Tailwind v4 theme tokens
+   Mapped from the legacy Styles/global.css :root.
+   Add tokens here, then use as `bg-navy`, `text-accent`,
+   `rounded-md`, `shadow-md`, `font-display`, etc.
+   ============================================ */
+@theme {
+  /* Brand palette */
+  --color-navy:         #0d2d4f;
+  --color-navy-mid:     #1a4168;
+  --color-navy-deep:    #081d33;
+  --color-navy-surface: #0f3560;
+  --color-accent:       #1a6fb5;
+  --color-accent-light: #e8f2fb;
+  --color-accent-soft:  #e8f1fa;
+  --color-teal:         #2cad6e;
+  --color-gold:         #d4a23a;
+  --color-danger:       #cc2222;
+  --color-success:      #2cad6e;
+
+  /* Neutrals */
+  --color-bg:           #ffffff;
+  --color-bg-soft:      #f5f8fb;
+  --color-bg-muted:     #eef3f9;
+  --color-surface:      #eef3f9;
+  --color-topbar:       #f0f4f8;
+  --color-border-soft:  #e5ecf3;
+
+  /* Text */
+  --color-ink:          #0d2236;
+  --color-ink-body:     #3d5166;
+  --color-ink-muted:    #7a92a8;
+
+  /* Radii */
+  --radius-sm:   10px;
+  --radius-md:   18px;
+  --radius-lg:   28px;
+  --radius-xl:   40px;
+  --radius-pill: 999px;
+
+  /* Shadows */
+  --shadow-sm:   0 4px 16px rgba(13, 45, 79, .08);
+  --shadow-md:   0 12px 40px rgba(13, 45, 79, .13);
+  --shadow-lg:   0 24px 64px rgba(13, 45, 79, .18);
+  --shadow-glow: 0 16px 48px rgba(26, 111, 181, .28);
+
+  /* Motion */
+  --ease-emma:   cubic-bezier(.4, 0, .2, 1);
+
+  /* Fonts (next/font sets the CSS vars on <html>) */
+  --font-sans:    var(--font-poppins), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: var(--font-playfair), Georgia, serif;
+  --font-body:    var(--font-dm-sans), var(--font-poppins), system-ui, sans-serif;
+
+  /* Layout */
+  --container-emma: 1240px;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ============================================
+   Base reset + element defaults
+   ============================================ */
+@layer base {
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    background: var(--color-bg);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { max-width: 100%; height: auto; display: block; }
+  a   { color: inherit; }
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ============================================
+   Utilities + keyframes preserved from legacy CSS
+   ============================================ */
+@utility visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@keyframes ripple-anim {
+  to { transform: scale(2.6); opacity: 0; }
+}
+@keyframes fade-out-up {
+  to { opacity: 0; transform: translateY(-20px); }
+}
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Reveal-on-scroll: components add data-reveal[="up|left|right"]
+   and the useScrollReveal hook toggles .is-visible. */
+[data-reveal] {
+  opacity: 0;
+  transition: opacity .75s ease, transform .75s ease;
+  will-change: opacity, transform;
+}
+[data-reveal="left"]  { transform: translateX(-44px); }
+[data-reveal="right"] { transform: translateX(44px);  }
+[data-reveal="up"]    { transform: translateY(38px);  }
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+    scroll-behavior: auto !important;
+  }
 }
