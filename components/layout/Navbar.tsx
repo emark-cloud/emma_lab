@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
+import { useCart, useCartUi, useHasHydrated } from "@/lib/cart-store";
 
 const NAV_LINKS = [
   { label: "Home", href: "/" },
@@ -19,6 +20,9 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
+  const cartCount = useCart((s) => s.items.length);
+  const setCartOpen = useCartUi((s) => s.setCartOpen);
+  const hydrated = useHasHydrated();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -89,9 +93,15 @@ export default function Navbar() {
           <button
             type="button"
             aria-label="Cart"
-            className="w-10 h-10 rounded-full bg-accent-light text-accent hover:bg-accent hover:text-white transition-colors flex items-center justify-center"
+            onClick={() => setCartOpen(true)}
+            className="relative w-10 h-10 rounded-full bg-accent-light text-accent hover:bg-accent hover:text-white transition-colors flex items-center justify-center"
           >
             <i className="fas fa-shopping-cart" aria-hidden />
+            {hydrated && cartCount > 0 && (
+              <span className="absolute -top-1 -right-1 min-w-[20px] h-5 px-1 rounded-full bg-gold text-navy text-[11px] font-bold flex items-center justify-center">
+                {cartCount}
+              </span>
+            )}
           </button>
           <button
             type="button"
