@@ -1,18 +1,31 @@
+import HeroCarousel from "@/components/landing/HeroCarousel";
+import AboutSplit from "@/components/landing/AboutSplit";
+import ServicesTabs from "@/components/landing/ServicesTabs";
+import CtaBanner from "@/components/landing/CtaBanner";
+import FeaturedBundles from "@/components/landing/FeaturedBundles";
+import WhyAccordion from "@/components/landing/WhyAccordion";
+import CareersSection from "@/components/landing/CareersSection";
+import ContactInfoGrid from "@/components/landing/ContactInfoGrid";
+import ContactForm from "@/components/landing/ContactForm";
+import LocationMap from "@/components/landing/LocationMap";
+import AppointmentCta from "@/components/landing/AppointmentCta";
+import RevealOnScroll from "@/components/ui/RevealOnScroll";
+
 export default function Home() {
   return (
-    <main className="flex-1 flex items-center justify-center p-12">
-      <div className="text-center max-w-xl">
-        <p className="text-sm uppercase tracking-widest text-accent font-semibold mb-3">
-          Emma Lab — Next.js scaffold
-        </p>
-        <h1 className="font-display text-4xl md:text-5xl text-navy font-bold mb-4">
-          Migration bootstrap complete
-        </h1>
-        <p className="text-ink-body">
-          Layout, fonts, tokens, and API wrapper are wired. Landing-page
-          sections come next.
-        </p>
-      </div>
-    </main>
+    <>
+      <HeroCarousel />
+      <AboutSplit />
+      <ServicesTabs />
+      <CtaBanner />
+      <FeaturedBundles />
+      <WhyAccordion />
+      <CareersSection />
+      <ContactInfoGrid />
+      <ContactForm />
+      <LocationMap />
+      <AppointmentCta />
+      <RevealOnScroll />
+    </>
   );
 }
