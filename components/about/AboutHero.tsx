@@ -51,7 +51,7 @@ export default function AboutHero() {
         <div className="grid sm:grid-cols-[1fr_1.4fr] gap-5 mt-14">
           <div
             data-reveal="left"
-            className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-md"
+            className="relative h-64 sm:h-72 lg:h-80 rounded-2xl overflow-hidden shadow-md"
           >
             <Image
               src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?w=700&q=80"
@@ -66,7 +66,7 @@ export default function AboutHero() {
           </div>
           <div
             data-reveal="right"
-            className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-md"
+            className="relative h-64 sm:h-72 lg:h-80 rounded-2xl overflow-hidden shadow-md"
           >
             <Image
               src="/images/About us.jpg"
