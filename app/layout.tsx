@@ -4,6 +4,7 @@ import "./globals.css";
 import TopBar from "@/components/layout/TopBar";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import Script from "next/script";
 import ScrollToTopOnReload from "@/components/ui/ScrollToTopOnReload";
 
 const poppins = Poppins({
@@ -54,6 +55,13 @@ export default function RootLayout({
       className={`${poppins.variable} ${dmSans.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-bg text-ink font-sans">
+        {/* Runs before hydration / image load / browser scroll restoration.
+            On a reload we opt out of native restoration so a tall,
+            image-heavy page (the home page) still lands at the top;
+            back/forward keep restoration (type !== "reload"). */}
+        <Script id="scroll-restoration" strategy="beforeInteractive">
+          {`try{var n=performance.getEntriesByType('navigation')[0];if(n&&n.type==='reload'&&'scrollRestoration' in history)history.scrollRestoration='manual';}catch(e){}`}
+        </Script>
         <link
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
