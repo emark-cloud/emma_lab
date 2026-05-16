@@ -51,7 +51,7 @@
 
   /* Fonts (next/font sets the CSS vars on <html>) */
   --font-sans:    var(--font-poppins), system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-display: var(--font-playfair), Georgia, serif;
+  --font-display: var(--font-poppins), system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-body:    var(--font-dm-sans), var(--font-poppins), system-ui, sans-serif;
 
   /* Layout */
