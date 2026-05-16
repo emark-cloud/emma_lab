@@ -4,6 +4,7 @@ import "./globals.css";
 import TopBar from "@/components/layout/TopBar";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import ScrollToTopOnReload from "@/components/ui/ScrollToTopOnReload";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -57,6 +58,7 @@ export default function RootLayout({
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         />
+        <ScrollToTopOnReload />
         <TopBar />
         <Navbar />
         <div className="flex-1 flex flex-col">{children}</div>
