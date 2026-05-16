@@ -62,7 +62,10 @@
    Base reset + element defaults
    ============================================ */
 @layer base {
-  html, body { overflow-x: hidden; }
+  /* `clip` (not `hidden`) so html/body don't become scroll containers —
+     `hidden` forces overflow-y to `auto`, which moves the scrolling
+     element to <body> and breaks window.scrollTo (scroll-to-top on reload). */
+  html, body { overflow-x: clip; }
   html { -webkit-text-size-adjust: 100%; }
   body {
     background: var(--color-bg);
