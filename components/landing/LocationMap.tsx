@@ -1,6 +1,10 @@
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { buttonClass } from "@/components/ui/Button";
 
+const MAPS_QUERY = "7.833025,3.923141";
+const MAPS_URL = `https://www.google.com/maps/search/?api=1&query=${MAPS_QUERY}`;
+const DIRECTIONS_URL = `https://www.google.com/maps/dir/?api=1&destination=${MAPS_QUERY}`;
+
 const DETAILS = [
   {
     icon: "fas fa-phone-alt",
@@ -28,13 +32,20 @@ export default function LocationMap() {
         <div data-reveal="left" className="relative rounded-3xl overflow-hidden shadow-md min-h-[420px]">
           <iframe
             title="Emma Lab Global Services Location"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3955.3!2d3.933!3d7.398!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zN8KwMjMnNTIuOCJOIDPCsDU1JzU0LjgiRQ!5e0!3m2!1sen!2sng!4v1"
-            className="absolute inset-0 w-full h-full border-0"
+            src={`https://maps.google.com/maps?q=${MAPS_QUERY}&z=16&output=embed`}
+            className="absolute inset-0 w-full h-full border-0 pointer-events-none"
             allowFullScreen
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
           />
-          <div className="absolute bottom-5 left-5 bg-white rounded-2xl shadow-lg px-4 py-3 flex items-center gap-3 max-w-[260px]">
+          <a
+            href={MAPS_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Open Emma Lab Global Services location in Google Maps"
+            className="absolute inset-0 z-10"
+          />
+          <div className="absolute bottom-5 left-5 z-20 bg-white rounded-2xl shadow-lg px-4 py-3 flex items-center gap-3 max-w-[260px]">
             <div className="w-10 h-10 rounded-full bg-navy text-white flex items-center justify-center flex-shrink-0">
               <i className="fas fa-flask" aria-hidden />
             </div>
@@ -42,9 +53,9 @@ export default function LocationMap() {
               <strong className="block text-navy text-sm">Emma Lab</strong>
               <span className="text-xs text-ink-muted">Oyo, Nigeria</span>
               <a
-                href="https://maps.google.com"
+                href={MAPS_URL}
                 target="_blank"
-                rel="noopener"
+                rel="noopener noreferrer"
                 className="block text-xs text-accent font-semibold mt-1"
               >
                 Open Google Maps{" "}
@@ -107,9 +118,9 @@ export default function LocationMap() {
           </ul>
 
           <a
-            href="https://maps.google.com/?q=Owode,Oyo,Nigeria"
+            href={DIRECTIONS_URL}
             target="_blank"
-            rel="noopener"
+            rel="noopener noreferrer"
             className={buttonClass("primary")}
           >
             <i className="fas fa-map-marked-alt" aria-hidden /> Get Directions
