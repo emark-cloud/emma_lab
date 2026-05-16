@@ -78,9 +78,6 @@ export default function Navbar() {
             <Link
               key={href}
               href={href}
-              {...(href === "/plans"
-                ? { target: "_blank", rel: "noopener noreferrer" }
-                : {})}
               className="text-ink hover:text-accent transition-colors"
             >
               {label}
