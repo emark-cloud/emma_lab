@@ -75,6 +75,8 @@ export default function ServicesTabs() {
                 </ul>
                 <Link
                   href="/plans"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border-2 border-navy text-navy text-sm font-semibold hover:bg-navy hover:text-white transition-colors"
                 >
                   Book This Test <i className="fas fa-arrow-right" aria-hidden />

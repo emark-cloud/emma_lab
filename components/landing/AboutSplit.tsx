@@ -71,7 +71,12 @@ export default function AboutSplit() {
             ))}
           </div>
 
-          <Link href="/about" className={buttonClass("primary")}>
+          <Link
+            href="/about"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={buttonClass("primary")}
+          >
             Read More <i className="fas fa-arrow-right" aria-hidden />
           </Link>
         </div>
