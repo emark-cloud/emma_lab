@@ -38,8 +38,10 @@ export default function Navbar() {
   return (
     <header
       className={clsx(
-        "sticky top-0 z-40 bg-white transition-shadow",
-        scrolled ? "shadow-md" : "shadow-none",
+        "sticky top-0 z-40 transition-colors duration-300",
+        scrolled
+          ? "bg-white/20 backdrop-blur-md shadow-md"
+          : "bg-white shadow-none",
       )}
     >
       <div className="max-w-[var(--container-emma)] mx-auto px-6 py-3 flex items-center justify-between gap-4">
