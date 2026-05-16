@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import * as Tabs from "@radix-ui/react-tabs";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { SERVICES } from "@/lib/landing-data";
@@ -72,12 +73,12 @@ export default function ServicesTabs() {
                     </li>
                   ))}
                 </ul>
-                <a
-                  href="#appointment"
+                <Link
+                  href="/plans"
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border-2 border-navy text-navy text-sm font-semibold hover:bg-navy hover:text-white transition-colors"
                 >
                   Book This Test <i className="fas fa-arrow-right" aria-hidden />
-                </a>
+                </Link>
               </div>
             </Tabs.Content>
           ))}

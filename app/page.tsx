@@ -1,10 +1,8 @@
 import HeroCarousel from "@/components/landing/HeroCarousel";
 import AboutSplit from "@/components/landing/AboutSplit";
-import ServicesTabs from "@/components/landing/ServicesTabs";
 import CtaBanner from "@/components/landing/CtaBanner";
 import FeaturedBundles from "@/components/landing/FeaturedBundles";
 import WhyAccordion from "@/components/landing/WhyAccordion";
-import CareersSection from "@/components/landing/CareersSection";
 import ContactInfoGrid from "@/components/landing/ContactInfoGrid";
 import ContactForm from "@/components/landing/ContactForm";
 import LocationMap from "@/components/landing/LocationMap";
@@ -16,11 +14,9 @@ export default function Home() {
     <>
       <HeroCarousel />
       <AboutSplit />
-      <ServicesTabs />
       <CtaBanner />
       <FeaturedBundles />
       <WhyAccordion />
-      <CareersSection />
       <ContactInfoGrid />
       <ContactForm />
       <LocationMap />

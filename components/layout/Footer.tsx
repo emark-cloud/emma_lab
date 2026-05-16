@@ -4,10 +4,10 @@ import { SocialIcons } from "@/components/ui/SocialIcons";
 
 const NAV_LINKS = [
   { label: "About Us", href: "/about" },
-  { label: "Diagnostic Tests", href: "/#what-we-do" },
+  { label: "Diagnostic Tests", href: "/diagnostic-tests" },
   { label: "View Plans", href: "/plans" },
   { label: "Contact Us", href: "/#contact" },
-  { label: "Career", href: "/#careers" },
+  { label: "Career", href: "/careers" },
 ];
 
 const CONTACTS = [

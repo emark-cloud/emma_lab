@@ -10,9 +10,9 @@ import { useCart, useCartUi, useHasHydrated } from "@/lib/cart-store";
 const NAV_LINKS = [
   { label: "Home", href: "/" },
   { label: "About Us", href: "/about" },
-  { label: "Diagnostic Tests", href: "/#what-we-do" },
+  { label: "Diagnostic Tests", href: "/diagnostic-tests" },
   { label: "View Plans", href: "/plans" },
-  { label: "Career", href: "/#careers" },
+  { label: "Career", href: "/careers" },
   { label: "Contact Us", href: "/#contact" },
 ];
 

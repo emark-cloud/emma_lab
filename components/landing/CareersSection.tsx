@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { buttonClass } from "@/components/ui/Button";
 import { PERKS } from "@/lib/landing-data";
@@ -52,9 +53,9 @@ export default function CareersSection() {
             ))}
           </div>
 
-          <a href="#" className={buttonClass("primary")}>
+          <Link href="/#contact" className={buttonClass("primary")}>
             <i className="fas fa-paper-plane" aria-hidden /> Apply Now
-          </a>
+          </Link>
         </div>
       </div>
     </section>
