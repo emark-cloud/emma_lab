@@ -41,19 +41,25 @@ export const useCart = create<CartState>()(
   ),
 );
 
-/* UI store: which client surface (cart drawer, checkout) is open right now. */
+/* UI store: which client surface (cart drawer, checkout, auth modal) is
+   open right now. authOpen lives here so any component (e.g. a plan card)
+   can prompt sign-in, not just the navbar. */
 type UiState = {
   cartOpen: boolean;
   checkoutOpen: boolean;
+  authOpen: boolean;
   setCartOpen: (open: boolean) => void;
   setCheckoutOpen: (open: boolean) => void;
+  setAuthOpen: (open: boolean) => void;
 };
 
 export const useCartUi = create<UiState>((set) => ({
   cartOpen: false,
   checkoutOpen: false,
+  authOpen: false,
   setCartOpen: (open) => set({ cartOpen: open }),
   setCheckoutOpen: (open) => set({ checkoutOpen: open }),
+  setAuthOpen: (open) => set({ authOpen: open }),
 }));
 
 /* Gate dynamic UI on Zustand-persist hydration to avoid SSR/CSR mismatches. */

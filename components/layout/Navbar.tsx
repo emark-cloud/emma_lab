@@ -3,9 +3,12 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import clsx from "clsx";
 import { useCart, useCartUi, useHasHydrated } from "@/lib/cart-store";
+import { useUser } from "@/lib/hooks/useUser";
+import { createClient } from "@/lib/supabase/client";
+import AuthModal from "@/components/auth/AuthModal";
 
 const NAV_LINKS = [
   { label: "Home", href: "/" },
@@ -19,10 +22,26 @@ const NAV_LINKS = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [accountOpen, setAccountOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
   const cartCount = useCart((s) => s.items.length);
   const setCartOpen = useCartUi((s) => s.setCartOpen);
+  const authOpen = useCartUi((s) => s.authOpen);
+  const setAuthOpen = useCartUi((s) => s.setAuthOpen);
   const hydrated = useHasHydrated();
+  const { user, loading: authLoading } = useUser();
+
+  const displayName =
+    (user?.user_metadata?.full_name as string | undefined) ||
+    user?.email ||
+    "Account";
+
+  async function signOut() {
+    setAccountOpen(false);
+    await createClient().auth.signOut();
+    router.refresh();
+  }
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -33,6 +52,7 @@ export default function Navbar() {
 
   useEffect(() => {
     setMenuOpen(false);
+    setAccountOpen(false);
   }, [pathname]);
 
   return (
@@ -83,15 +103,106 @@ export default function Navbar() {
               {label}
             </Link>
           ))}
+          {!authLoading && user ? (
+            <div className="lg:hidden flex flex-col gap-3 pt-3 border-t border-border-soft">
+              <span className="text-xs text-ink-muted">
+                Signed in as{" "}
+                <span className="text-navy font-medium">{user.email}</span>
+              </span>
+              <Link
+                href="/account"
+                className="text-left text-ink hover:text-accent transition-colors"
+              >
+                <i className="fas fa-user" aria-hidden /> My account
+              </Link>
+              <button
+                type="button"
+                onClick={signOut}
+                className="text-left text-ink hover:text-accent transition-colors"
+              >
+                <i className="fas fa-sign-out-alt" aria-hidden /> Sign out
+              </button>
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={() => {
+                setMenuOpen(false);
+                setAuthOpen(true);
+              }}
+              className="lg:hidden text-left text-ink hover:text-accent transition-colors pt-3 border-t border-border-soft"
+            >
+              <i className="fas fa-user-circle" aria-hidden /> Log in
+            </button>
+          )}
         </nav>
 
         <div className="flex items-center gap-3">
-          <button
-            type="button"
-            className="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-full border-2 border-navy text-navy text-sm font-semibold hover:bg-navy hover:text-white transition-colors"
-          >
-            <i className="fas fa-user-circle" aria-hidden /> Log in
-          </button>
+          {!authLoading && user ? (
+            <div className="relative hidden md:block">
+              <button
+                type="button"
+                onClick={() => setAccountOpen((v) => !v)}
+                aria-expanded={accountOpen}
+                aria-haspopup="menu"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full border-2 border-navy text-navy text-sm font-semibold hover:bg-navy hover:text-white transition-colors max-w-[200px]"
+              >
+                <i className="fas fa-user-circle" aria-hidden />
+                <span className="truncate">{displayName}</span>
+                <i
+                  className={clsx(
+                    "fas fa-chevron-down text-[10px] transition-transform",
+                    accountOpen && "rotate-180",
+                  )}
+                  aria-hidden
+                />
+              </button>
+              {accountOpen && (
+                <>
+                  <div
+                    className="fixed inset-0 z-40"
+                    onClick={() => setAccountOpen(false)}
+                    aria-hidden
+                  />
+                  <div
+                    role="menu"
+                    className="absolute right-0 top-full mt-2 w-56 bg-white rounded-xl shadow-lg border border-border-soft py-2 z-50"
+                  >
+                    <div className="px-4 py-2 border-b border-border-soft">
+                      <p className="text-xs text-ink-muted">Signed in as</p>
+                      <p className="text-sm font-medium text-navy truncate">
+                        {user.email}
+                      </p>
+                    </div>
+                    <Link
+                      href="/account"
+                      role="menuitem"
+                      onClick={() => setAccountOpen(false)}
+                      className="w-full text-left px-4 py-2.5 text-sm text-ink hover:bg-bg-soft transition-colors flex items-center gap-2"
+                    >
+                      <i className="fas fa-user" aria-hidden /> My account
+                    </Link>
+                    <button
+                      type="button"
+                      role="menuitem"
+                      onClick={signOut}
+                      className="w-full text-left px-4 py-2.5 text-sm text-ink hover:bg-bg-soft transition-colors flex items-center gap-2"
+                    >
+                      <i className="fas fa-sign-out-alt" aria-hidden /> Sign out
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={() => setAuthOpen(true)}
+              className="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-full border-2 border-navy text-navy text-sm font-semibold hover:bg-navy hover:text-white transition-colors"
+            >
+              <i className="fas fa-user-circle" aria-hidden /> Log in
+            </button>
+          )}
           <button
             type="button"
             aria-label="Cart"
@@ -133,6 +244,7 @@ export default function Navbar() {
           </button>
         </div>
       </div>
+      <AuthModal open={authOpen} onOpenChange={setAuthOpen} />
     </header>
   );
 }

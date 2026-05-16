@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as RadioGroup from "@radix-ui/react-radio-group";
 import { useForm } from "react-hook-form";
@@ -24,6 +24,8 @@ import {
   verifyPayment,
 } from "@/lib/api";
 import { useOtpTimer } from "@/lib/hooks/useOtpTimer";
+import { useUser } from "@/lib/hooks/useUser";
+import { recordOrder } from "@/lib/supabase/account";
 
 type Step = "review" | "details" | "otp" | "payment" | "success";
 
@@ -54,6 +56,21 @@ export default function CheckoutModal() {
   const total = useCart((s) => s.total());
   const clearCart = useCart((s) => s.clear);
   const hydrated = useHasHydrated();
+  const { user } = useUser();
+
+  /* Prefill the details step from the signed-in account. Phone isn't
+     collected at signup, so it stays blank for the user to fill. */
+  const prefill = useMemo<CustomerInput>(() => {
+    const fullName =
+      (user?.user_metadata?.full_name as string | undefined)?.trim() ?? "";
+    const parts = fullName ? fullName.split(/\s+/) : [];
+    return {
+      firstName: parts[0] ?? "",
+      lastName: parts.slice(1).join(" "),
+      email: user?.email ?? "",
+      phone: "",
+    };
+  }, [user]);
 
   const [step, setStep] = useState<Step>("review");
   const [customer, setCustomer] = useState<CustomerInput | null>(null);
@@ -119,6 +136,7 @@ export default function CheckoutModal() {
           )}
           {step === "details" && (
             <DetailsStep
+              initial={customer ?? prefill}
               onBack={() => setStep("review")}
               onSubmit={async (values) => {
                 setError("");
@@ -158,6 +176,18 @@ export default function CheckoutModal() {
               onSuccess={(ref) => {
                 setError("");
                 setTxRef(ref);
+                // Best-effort order history for signed-in users; never
+                // blocks the success screen.
+                void recordOrder({
+                  reference: ref,
+                  items: items.map(({ id, name, price }) => ({
+                    id,
+                    name,
+                    price,
+                  })),
+                  total,
+                  currency: "NGN",
+                });
                 clearCart();
                 setStep("success");
               }}
@@ -264,9 +294,11 @@ function ReviewStep({
 }
 
 function DetailsStep({
+  initial,
   onBack,
   onSubmit,
 }: {
+  initial: CustomerInput;
   onBack: () => void;
   onSubmit: (values: CustomerInput) => Promise<void>;
 }) {
@@ -274,7 +306,11 @@ function DetailsStep({
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<CustomerInput>({ resolver: zodResolver(customerSchema) });
+  } = useForm<CustomerInput>({
+    resolver: zodResolver(customerSchema),
+    // Reactive: syncs once the signed-in user resolves after mount.
+    values: initial,
+  });
 
   const field =
     "w-full px-4 py-3 rounded-xl border border-border-soft bg-bg-soft focus:outline-none focus:border-accent transition-colors";

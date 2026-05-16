@@ -2,7 +2,10 @@
 
 import clsx from "clsx";
 import { type Bundle, CATEGORY_LABELS } from "@/lib/bundles";
-import { useCart, useHasHydrated } from "@/lib/cart-store";
+import { useCart, useCartUi, useHasHydrated } from "@/lib/cart-store";
+import { useSavedPlans } from "@/lib/saved-plans-store";
+import { createClient } from "@/lib/supabase/client";
+import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { formatPrice } from "@/lib/format";
 
 export default function PlanCard({ bundle }: { bundle: Bundle }) {
@@ -11,6 +14,23 @@ export default function PlanCard({ bundle }: { bundle: Bundle }) {
   const has = useCart((s) => s.has(bundle.id));
   const hydrated = useHasHydrated();
   const inCart = hydrated && has;
+
+  const setAuthOpen = useCartUi((s) => s.setAuthOpen);
+  const toggleSaved = useSavedPlans((s) => s.toggle);
+  const isSaved = useSavedPlans((s) => s.has(bundle.id));
+  const saved = hydrated && isSaved;
+
+  async function onSaveClick() {
+    if (!isSupabaseConfigured) return;
+    const {
+      data: { user },
+    } = await createClient().auth.getUser();
+    if (!user) {
+      setAuthOpen(true);
+      return;
+    }
+    toggleSaved(bundle.id);
+  }
 
   const featured = bundle.featured;
 
@@ -42,6 +62,27 @@ export default function PlanCard({ bundle }: { bundle: Bundle }) {
           <i className="fas fa-shield-virus" aria-hidden />
           {CATEGORY_LABELS[bundle.category]}
         </div>
+        {isSupabaseConfigured && (
+          <button
+            type="button"
+            onClick={onSaveClick}
+            aria-pressed={saved}
+            aria-label={saved ? "Remove from saved plans" : "Save this plan"}
+            title={saved ? "Saved" : "Save for later"}
+            className={clsx(
+              "w-9 h-9 rounded-full flex items-center justify-center transition-colors shrink-0",
+              featured
+                ? "bg-white/15 text-white hover:bg-white/25"
+                : "bg-bg-soft text-ink-muted hover:text-accent",
+              saved && (featured ? "text-gold" : "text-accent"),
+            )}
+          >
+            <i
+              className={clsx(saved ? "fas" : "far", "fa-bookmark")}
+              aria-hidden
+            />
+          </button>
+        )}
       </div>
 
       <h3 className="font-display text-xl font-bold mb-2">{bundle.name}</h3>
