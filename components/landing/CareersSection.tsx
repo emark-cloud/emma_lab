@@ -6,7 +6,7 @@ import { PERKS } from "@/lib/landing-data";
 
 export default function CareersSection() {
   return (
-    <section id="careers" className="py-20">
+    <section id="careers" className="py-12 sm:py-16 lg:py-20">
       <div className="max-w-[var(--container-emma)] mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
         <div data-reveal="left" className="relative">
           <div className="relative aspect-[4/5] rounded-3xl overflow-hidden shadow-lg">

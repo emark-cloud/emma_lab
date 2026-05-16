@@ -33,7 +33,7 @@ export default function ContactForm() {
     "w-full px-4 py-3 rounded-xl border border-border-soft bg-white focus:outline-none focus:border-accent transition-colors";
 
   return (
-    <section id="message" className="py-20">
+    <section id="message" className="py-12 sm:py-16 lg:py-20">
       <div className="max-w-3xl mx-auto px-6" data-reveal="up">
         <SectionHeader
           eyebrow="We'd Love to Hear From You"

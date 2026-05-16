@@ -10,7 +10,7 @@ const COUNTERS = [
 
 export default function NumbersCounters() {
   return (
-    <section id="numbers" className="py-20 bg-bg-soft">
+    <section id="numbers" className="py-12 sm:py-16 lg:py-20 bg-bg-soft">
       <div className="max-w-[var(--container-emma)] mx-auto px-6">
         <header data-reveal="up" className="text-center mb-12">
           <p className="text-xs uppercase tracking-[0.2em] font-semibold text-accent mb-3">

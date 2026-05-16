@@ -18,7 +18,7 @@ export default function AppointmentCta() {
     <>
       <section
         id="appointment"
-        className="relative overflow-hidden bg-gradient-to-br from-navy via-navy-mid to-accent text-white py-20"
+        className="relative overflow-hidden bg-gradient-to-br from-navy via-navy-mid to-accent text-white py-12 sm:py-16 lg:py-20"
       >
         <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-accent/30 blur-3xl" />
         <div className="absolute -bottom-32 -right-32 w-96 h-96 rounded-full bg-gold/20 blur-3xl" />

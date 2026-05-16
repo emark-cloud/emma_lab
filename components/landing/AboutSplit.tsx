@@ -11,10 +11,10 @@ const STATS = [
 
 export default function AboutSplit() {
   return (
-    <section id="about" className="py-20">
+    <section id="about" className="py-12 sm:py-16 lg:py-20">
       <div className="max-w-[var(--container-emma)] mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
         <div data-reveal="left" className="relative">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-3 sm:gap-4">
             <div className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-md">
               <Image
                 src="/images/About us.jpg"
@@ -24,7 +24,7 @@ export default function AboutSplit() {
                 className="object-cover"
               />
             </div>
-            <div className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-md mt-12">
+            <div className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-md mt-6 sm:mt-12">
               <Image
                 src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=480&q=80"
                 alt="Lab team at work"
@@ -34,8 +34,8 @@ export default function AboutSplit() {
               />
             </div>
           </div>
-          <div className="absolute -bottom-4 left-4 bg-navy text-white rounded-2xl px-5 py-4 shadow-lg flex items-center gap-3">
-            <span className="font-display text-3xl font-bold">14+</span>
+          <div className="absolute -bottom-3 left-2 sm:-bottom-4 sm:left-4 bg-navy text-white rounded-2xl px-5 py-4 shadow-lg flex items-center gap-3">
+            <span className="font-display text-2xl sm:text-3xl font-bold">14+</span>
             <span className="text-xs leading-tight uppercase tracking-wider">
               Years of
               <br />
@@ -57,13 +57,13 @@ export default function AboutSplit() {
             medical imaging and beyond.
           </p>
 
-          <div className="grid grid-cols-3 gap-4 mb-8">
+          <div className="grid grid-cols-3 gap-2 sm:gap-4 mb-8">
             {STATS.map((s) => (
               <div
                 key={s.label}
-                className="bg-bg-soft rounded-2xl px-4 py-5 text-center"
+                className="bg-bg-soft rounded-2xl px-2 py-4 sm:px-4 sm:py-5 text-center"
               >
-                <div className="font-display text-2xl font-bold text-accent">
+                <div className="font-display text-lg sm:text-2xl font-bold text-accent">
                   {s.num}
                 </div>
                 <div className="text-xs text-ink-muted mt-1">{s.label}</div>

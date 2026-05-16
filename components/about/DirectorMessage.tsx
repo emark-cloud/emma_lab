@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function DirectorMessage() {
   return (
-    <section id="director" className="py-20 bg-bg-soft">
+    <section id="director" className="py-12 sm:py-16 lg:py-20 bg-bg-soft">
       <div className="max-w-[var(--container-emma)] mx-auto px-6 grid lg:grid-cols-[1.4fr_1fr] gap-12 items-center">
         <div data-reveal="left">
           <p className="text-xs uppercase tracking-[0.2em] font-semibold text-accent mb-3">

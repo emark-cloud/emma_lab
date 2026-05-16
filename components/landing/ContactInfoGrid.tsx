@@ -21,7 +21,7 @@ const CARDS = [
 
 export default function ContactInfoGrid() {
   return (
-    <section id="contact" className="py-20 bg-bg-soft">
+    <section id="contact" className="py-12 sm:py-16 lg:py-20 bg-bg-soft">
       <div className="max-w-[var(--container-emma)] mx-auto px-6">
         <SectionHeader
           eyebrow="Reach Out"

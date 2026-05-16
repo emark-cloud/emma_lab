@@ -6,7 +6,7 @@ import { formatPrice } from "@/lib/format";
 
 export default function FeaturedBundles() {
   return (
-    <section id="wellness" className="py-20">
+    <section id="wellness" className="py-12 sm:py-16 lg:py-20">
       <div className="max-w-[var(--container-emma)] mx-auto px-6">
         <SectionHeader
           eyebrow="Health Packages"

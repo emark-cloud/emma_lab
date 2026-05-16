@@ -24,7 +24,7 @@ export default function HeroCarousel() {
       id="hero"
       className="relative bg-gradient-to-br from-bg-soft via-white to-accent-light"
     >
-      <div className="max-w-[var(--container-emma)] mx-auto px-6 py-16 lg:py-24 grid lg:grid-cols-2 gap-12 items-center">
+      <div className="max-w-[var(--container-emma)] mx-auto px-6 py-10 sm:py-14 lg:py-24 grid lg:grid-cols-2 gap-12 items-center">
         <div className="space-y-6">
           <h1 className="font-display text-4xl md:text-5xl lg:text-6xl text-navy leading-[1.1] font-bold">
             Your
@@ -49,8 +49,8 @@ export default function HeroCarousel() {
                 className={clsx(
                   "relative rounded-2xl overflow-hidden shadow-lg transition-all duration-700 ease-out",
                   i === index
-                    ? "flex-[1.6] min-h-[420px]"
-                    : "flex-1 min-h-[320px] opacity-80",
+                    ? "w-full aspect-[4/3] lg:aspect-auto lg:flex-[1.6] lg:min-h-[420px]"
+                    : "hidden lg:block lg:flex-1 lg:min-h-[320px] lg:opacity-80",
                 )}
               >
                 <Image

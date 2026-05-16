@@ -8,7 +8,7 @@ import { SERVICES } from "@/lib/landing-data";
 
 export default function ServicesTabs() {
   return (
-    <section id="what-we-do" className="py-20 bg-bg-soft">
+    <section id="what-we-do" className="py-12 sm:py-16 lg:py-20 bg-bg-soft">
       <div className="max-w-[var(--container-emma)] mx-auto px-6">
         <SectionHeader
           eyebrow="Our Diagnostic Tests"

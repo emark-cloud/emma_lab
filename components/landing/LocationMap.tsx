@@ -23,7 +23,7 @@ const DETAILS = [
 
 export default function LocationMap() {
   return (
-    <section id="location" className="py-20 bg-bg-soft">
+    <section id="location" className="py-12 sm:py-16 lg:py-20 bg-bg-soft">
       <div className="max-w-[var(--container-emma)] mx-auto px-6 grid lg:grid-cols-2 gap-10 items-stretch">
         <div data-reveal="left" className="relative rounded-3xl overflow-hidden shadow-md min-h-[420px]">
           <iframe

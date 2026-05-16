@@ -5,10 +5,10 @@ import { WHY_ITEMS } from "@/lib/landing-data";
 
 export default function WhyAccordion() {
   return (
-    <section id="why" className="py-20 bg-bg-soft">
+    <section id="why" className="py-12 sm:py-16 lg:py-20 bg-bg-soft">
       <div className="max-w-[var(--container-emma)] mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
         <div data-reveal="left" className="relative">
-          <div className="relative w-72 h-72 mx-auto">
+          <div className="relative w-56 h-56 sm:w-72 sm:h-72 mx-auto">
             <div className="absolute inset-0 rounded-full border-2 border-accent/20 animate-[spin_22s_linear_infinite]" />
             <div className="absolute inset-6 rounded-full border-2 border-accent/30 animate-[spin_16s_linear_infinite_reverse]" />
             <div className="absolute inset-12 rounded-full border-2 border-accent/40 animate-[spin_10s_linear_infinite]" />

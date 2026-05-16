@@ -9,7 +9,7 @@ const VALUES = [
 
 export default function IdentitySection() {
   return (
-    <section id="identity" className="py-20">
+    <section id="identity" className="py-12 sm:py-16 lg:py-20">
       <div className="max-w-[var(--container-emma)] mx-auto px-6">
         <div data-reveal="up" className="mb-12">
           <h2 className="font-display text-4xl md:text-5xl text-navy font-bold">

@@ -31,7 +31,7 @@ const SEALS = [
 
 export default function AccreditationSeals() {
   return (
-    <section id="accreditations" className="py-20">
+    <section id="accreditations" className="py-12 sm:py-16 lg:py-20">
       <div className="max-w-[var(--container-emma)] mx-auto px-6">
         <header data-reveal="up" className="text-center mb-12">
           <p className="text-xs uppercase tracking-[0.2em] font-semibold text-accent mb-3">

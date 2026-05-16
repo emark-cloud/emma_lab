@@ -60,7 +60,7 @@ export default function PlansBrowser() {
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="relative">
+            <div className="relative flex-1 sm:flex-initial">
               <label htmlFor="planSearch" className="visually-hidden">
                 Search bundles
               </label>
@@ -75,7 +75,7 @@ export default function PlansBrowser() {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 aria-label="Search bundles"
-                className="pl-10 pr-4 py-2.5 rounded-full bg-white border border-border-soft text-sm w-56 focus:outline-none focus:border-accent transition-colors"
+                className="pl-10 pr-4 py-2.5 rounded-full bg-white border border-border-soft text-sm w-full sm:w-56 focus:outline-none focus:border-accent transition-colors"
               />
               {query && (
                 <button
