@@ -66,7 +66,7 @@ export default function Navbar() {
       className={clsx(
         "sticky top-0 z-40 transition-colors duration-300",
         scrolled
-          ? "bg-white/20 backdrop-blur-md shadow-md"
+          ? "bg-white/70 backdrop-blur-md shadow-md"
           : "bg-white shadow-none",
       )}
     >
@@ -82,20 +82,20 @@ export default function Navbar() {
               window.location.reload();
             }
           }}
-          className="flex items-center gap-3"
+          className="flex items-center gap-0"
         >
-          <div className="w-10 h-10 relative flex-shrink-0">
+          <div className="w-[60px] h-[60px] relative flex-shrink-0">
             <Image
               src="/images/Emma Logo.png"
               alt="Emma Lab"
               fill
-              sizes="40px"
+              sizes="60px"
               className="object-contain"
               priority
             />
           </div>
-          <div className="leading-tight">
-            <span className="block font-display font-bold text-navy text-lg">
+          <div className="leading-none">
+            <span className="block font-display font-bold text-navy text-[19.8px]">
               Emma Lab
             </span>
             <span className="block text-[10px] uppercase tracking-widest text-ink-muted">
