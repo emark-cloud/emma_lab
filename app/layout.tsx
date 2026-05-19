@@ -8,6 +8,9 @@ import Script from "next/script";
 import ScrollToTopOnReload from "@/components/ui/ScrollToTopOnReload";
 import AccountSync from "@/components/account/AccountSync";
 import ToastViewport from "@/components/ui/Toast";
+import CartDrawer from "@/components/plans/CartDrawer";
+import CheckoutModal from "@/components/plans/CheckoutModal";
+import BackToTop from "@/components/ui/BackToTop";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -90,7 +93,16 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
+        {/* Cart + checkout are triggered from the global Navbar, so they
+            must be mounted globally — not only on /plans. */}
+        <CartDrawer />
+        <CheckoutModal />
+        <BackToTop />
         <ToastViewport />
+        <Script
+          src="https://checkout.flutterwave.com/v3.js"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );

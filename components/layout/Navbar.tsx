@@ -52,8 +52,13 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
+    // Collapse any open menus on navigation. The pathname change is an
+    // external (router) event, so resetting transient UI here is the
+    // intended use of an effect, not a render-derived value.
+    /* eslint-disable react-hooks/set-state-in-effect */
     setMenuOpen(false);
     setAccountOpen(false);
+    /* eslint-enable react-hooks/set-state-in-effect */
   }, [pathname]);
 
   return (
@@ -66,7 +71,19 @@ export default function Navbar() {
       )}
     >
       <div className="max-w-[var(--container-emma)] mx-auto px-6 py-3 flex items-center justify-between gap-4">
-        <Link href="/" className="flex items-center gap-3">
+        <Link
+          href="/"
+          onClick={(e) => {
+            // Already home: a Next.js <Link> to the current route is a
+            // no-op, so force a fresh reload that lands at the top
+            // (ScrollToTopOnReload handles the scroll on reload nav).
+            if (pathname === "/") {
+              e.preventDefault();
+              window.location.reload();
+            }
+          }}
+          className="flex items-center gap-3"
+        >
           <div className="w-10 h-10 relative flex-shrink-0">
             <Image
               src="/images/Emma Logo.png"

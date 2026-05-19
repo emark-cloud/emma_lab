@@ -3,6 +3,7 @@ import clsx from "clsx";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { FEATURED_BUNDLES } from "@/lib/landing-data";
 import { formatPrice } from "@/lib/format";
+import AddFeaturedToCart from "@/components/landing/AddFeaturedToCart";
 
 export default function FeaturedBundles() {
   return (
@@ -87,18 +88,12 @@ export default function FeaturedBundles() {
                   </li>
                 ))}
               </ul>
-              <Link
-                href="/plans"
-                className={clsx(
-                  "inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full text-sm font-semibold transition-all hover:-translate-y-0.5",
-                  b.featured
-                    ? "bg-white text-navy hover:bg-accent-light"
-                    : "bg-navy text-white hover:bg-accent",
-                )}
-              >
-                Add to Basket{" "}
-                <i className="fas fa-shopping-basket" aria-hidden />
-              </Link>
+              <AddFeaturedToCart
+                id={b.id}
+                name={b.name}
+                price={b.price}
+                featured={b.featured}
+              />
             </article>
           ))}
         </div>
