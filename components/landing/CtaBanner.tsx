@@ -13,16 +13,20 @@ export default function CtaBanner() {
           </div>
           <div className="flex flex-wrap gap-3">
             <a
-              href="#appointment"
+              href="/plans"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-7 py-3 rounded-full bg-white text-navy text-sm font-semibold hover:bg-accent-light transition-colors"
             >
               Book a Test <i className="fas fa-arrow-right" aria-hidden />
             </a>
             <a
-              href="tel:+2349120914837"
+              href="https://wa.me/2349120914837"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-7 py-3 rounded-full border-2 border-white text-white text-sm font-semibold hover:bg-white hover:text-navy transition-colors"
             >
-              <i className="fas fa-phone" aria-hidden /> Call Us Now
+              <i className="fab fa-whatsapp" aria-hidden /> Chat With Us Now
             </a>
           </div>
         </div>

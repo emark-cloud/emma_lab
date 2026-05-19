@@ -114,6 +114,7 @@ export const SERVICES: Service[] = [
 
 export type FeaturedBundle = {
   id: string;
+  name: string;
   badge: string;
   price: number;
   description: string;
@@ -125,6 +126,7 @@ export type FeaturedBundle = {
 export const FEATURED_BUNDLES: FeaturedBundle[] = [
   {
     id: "std-essentials",
+    name: "STD Screening — Essentials",
     badge: "STD Screening",
     price: 50000,
     description:
@@ -142,6 +144,7 @@ export const FEATURED_BUNDLES: FeaturedBundle[] = [
   },
   {
     id: "std-most-popular",
+    name: "STD Screening — Comprehensive",
     badge: "STD Screening",
     price: 50000,
     featured: true,
@@ -160,6 +163,7 @@ export const FEATURED_BUNDLES: FeaturedBundle[] = [
   },
   {
     id: "std-extended",
+    name: "STD Screening — Extended",
     badge: "STD Screening",
     price: 50000,
     description:
