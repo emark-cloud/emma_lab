@@ -33,11 +33,11 @@ export default function PageIndexSidebar() {
   }, []);
 
   return (
-    <aside className="lg:sticky lg:top-32">
-      <p className="text-xs uppercase tracking-[0.2em] font-semibold text-ink-muted mb-4">
+    <aside className="sticky top-16 z-30 -mx-6 px-6 py-3 bg-bg-soft/95 backdrop-blur lg:static lg:mx-0 lg:px-0 lg:py-0 lg:bg-transparent lg:backdrop-blur-none lg:top-32">
+      <p className="hidden lg:block text-xs uppercase tracking-[0.2em] font-semibold text-ink-muted mb-4">
         On This Page
       </p>
-      <nav className="flex flex-col gap-2">
+      <nav className="flex gap-2 overflow-x-auto lg:flex-col lg:overflow-visible">
         {ITEMS.map((item) => {
           const isActive = active === item.id;
           return (
@@ -45,7 +45,7 @@ export default function PageIndexSidebar() {
               key={item.id}
               href={`#${item.id}`}
               className={clsx(
-                "flex items-center gap-4 px-4 py-3 rounded-xl border transition-colors",
+                "flex items-center gap-3 lg:gap-4 px-4 py-2.5 lg:py-3 rounded-xl border transition-colors whitespace-nowrap shrink-0",
                 isActive
                   ? "bg-navy text-white border-navy"
                   : "bg-white border-border-soft text-ink hover:border-accent/40",

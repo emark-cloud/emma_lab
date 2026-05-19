@@ -26,6 +26,8 @@ import {
 import { useOtpTimer } from "@/lib/hooks/useOtpTimer";
 import { useUser } from "@/lib/hooks/useUser";
 import { recordOrder } from "@/lib/supabase/account";
+import { Spinner } from "@/components/ui/Spinner";
+import Link from "next/link";
 
 type Step = "review" | "details" | "otp" | "payment" | "success";
 
@@ -52,8 +54,10 @@ declare global {
 export default function CheckoutModal() {
   const open = useCartUi((s) => s.checkoutOpen);
   const setOpen = useCartUi((s) => s.setCheckoutOpen);
+  const setCartOpen = useCartUi((s) => s.setCartOpen);
   const items = useCart((s) => s.items);
   const total = useCart((s) => s.total());
+  const removeItem = useCart((s) => s.remove);
   const clearCart = useCart((s) => s.clear);
   const hydrated = useHasHydrated();
   const { user } = useUser();
@@ -88,19 +92,26 @@ export default function CheckoutModal() {
     }
   }, [open]);
 
+  /* Single transition point so every step change also clears any stale
+     error banner from the previous step (e.g. a failed OTP/payment). */
+  const goTo = (s: Step) => {
+    setError("");
+    setStep(s);
+  };
+
   if (!hydrated) return null;
 
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 z-50 bg-navy/60 backdrop-blur-sm" />
-        <Dialog.Content className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-[94vw] max-w-2xl bg-white rounded-2xl shadow-lg p-6 md:p-8 max-h-[92vh] overflow-y-auto">
+        <Dialog.Overlay className="fixed inset-0 bg-navy/60 backdrop-blur-sm z-50 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out data-[state=open]:fade-in" />
+        <Dialog.Content className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-[92vw] max-w-2xl bg-white rounded-2xl shadow-lg p-8 md:p-10 max-h-[92vh] overflow-y-auto">
           <Dialog.Close asChild>
             <button
               aria-label="Close"
               className="absolute top-5 right-5 w-9 h-9 rounded-full bg-bg-soft text-ink hover:bg-surface hover:rotate-90 transition-all flex items-center justify-center"
             >
-              <i className="fas fa-times" aria-hidden />
+              <i className="fas fa-times text-sm" aria-hidden />
             </button>
           </Dialog.Close>
 
@@ -126,18 +137,22 @@ export default function CheckoutModal() {
             <ReviewStep
               items={items}
               total={total}
+              onRemove={removeItem}
+              onEdit={() => {
+                setOpen(false);
+                setCartOpen(true);
+              }}
               onNext={() => {
                 if (items.length === 0)
                   return setError("Your basket is empty.");
-                setError("");
-                setStep("details");
+                goTo("details");
               }}
             />
           )}
           {step === "details" && (
             <DetailsStep
               initial={customer ?? prefill}
-              onBack={() => setStep("review")}
+              onBack={() => goTo("review")}
               onSubmit={async (values) => {
                 setError("");
                 setCustomer(values);
@@ -157,11 +172,8 @@ export default function CheckoutModal() {
             <OtpStep
               email={customer.email}
               name={`${customer.firstName} ${customer.lastName}`}
-              onBack={() => setStep("details")}
-              onSuccess={() => {
-                setError("");
-                setStep("payment");
-              }}
+              onBack={() => goTo("details")}
+              onSuccess={() => goTo("payment")}
               onError={setError}
             />
           )}
@@ -172,7 +184,7 @@ export default function CheckoutModal() {
               total={total}
               method={method}
               onMethodChange={setMethod}
-              onBack={() => setStep("otp")}
+              onBack={() => goTo("otp")}
               onSuccess={(ref) => {
                 setError("");
                 setTxRef(ref);
@@ -197,6 +209,7 @@ export default function CheckoutModal() {
           {step === "success" && (
             <SuccessStep
               txRef={txRef}
+              signedIn={!!user}
               onClose={() => setOpen(false)}
             />
           )}
@@ -251,10 +264,14 @@ function StepBar({ current }: { current: Step }) {
 function ReviewStep({
   items,
   total,
+  onRemove,
+  onEdit,
   onNext,
 }: {
   items: { id: string; name: string; price: number }[];
   total: number;
+  onRemove: (id: string) => void;
+  onEdit: () => void;
   onNext: () => void;
 }) {
   return (
@@ -266,11 +283,21 @@ function ReviewStep({
       ) : (
         <ul className="divide-y divide-border-soft mb-5">
           {items.map((i) => (
-            <li key={i.id} className="flex items-center justify-between py-3">
-              <span className="font-medium text-navy">{i.name}</span>
+            <li key={i.id} className="flex items-center gap-3 py-3">
+              <span className="flex-1 min-w-0 font-medium text-navy truncate">
+                {i.name}
+              </span>
               <span className="text-accent font-semibold">
                 {formatPrice(i.price)}
               </span>
+              <button
+                type="button"
+                onClick={() => onRemove(i.id)}
+                aria-label={`Remove ${i.name}`}
+                className="w-8 h-8 rounded-full bg-bg-soft text-ink-muted hover:bg-danger hover:text-white transition-colors flex items-center justify-center shrink-0"
+              >
+                <i className="fas fa-trash text-xs" aria-hidden />
+              </button>
             </li>
           ))}
         </ul>
@@ -281,14 +308,24 @@ function ReviewStep({
           {formatPrice(total)}
         </strong>
       </div>
-      <button
-        type="button"
-        onClick={onNext}
-        disabled={items.length === 0}
-        className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-navy text-white font-semibold hover:bg-accent transition-colors disabled:opacity-60"
-      >
-        Continue <i className="fas fa-arrow-right" aria-hidden />
-      </button>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <button
+          type="button"
+          onClick={onEdit}
+          className="text-sm text-ink-muted hover:text-navy"
+        >
+          <i className="fas fa-pen text-xs mr-1.5" aria-hidden />
+          Edit basket
+        </button>
+        <button
+          type="button"
+          onClick={onNext}
+          disabled={items.length === 0}
+          className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-navy text-white font-semibold hover:bg-accent transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+        >
+          Continue <i className="fas fa-arrow-right" aria-hidden />
+        </button>
+      </div>
     </div>
   );
 }
@@ -313,7 +350,7 @@ function DetailsStep({
   });
 
   const field =
-    "w-full px-4 py-3 rounded-xl border border-border-soft bg-bg-soft focus:outline-none focus:border-accent transition-colors";
+    "w-full px-4 py-3 rounded-xl border border-border-soft bg-white focus:outline-none focus:border-accent transition-colors";
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4">
@@ -374,6 +411,7 @@ function DetailsStep({
             {...register("phone")}
             type="tel"
             autoComplete="tel"
+            placeholder="0801 234 5678"
             className={field}
           />
           {errors.phone && (
@@ -394,10 +432,17 @@ function DetailsStep({
         <button
           type="submit"
           disabled={isSubmitting}
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-navy text-white font-semibold hover:bg-accent transition-colors disabled:opacity-60"
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-navy text-white font-semibold hover:bg-accent transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
         >
-          {isSubmitting ? "Sending OTP…" : "Send OTP"}{" "}
-          <i className="fas fa-paper-plane" aria-hidden />
+          {isSubmitting ? (
+            <>
+              Sending OTP… <Spinner />
+            </>
+          ) : (
+            <>
+              Send OTP <i className="fas fa-paper-plane" aria-hidden />
+            </>
+          )}
         </button>
       </div>
     </form>
@@ -459,7 +504,7 @@ function OtpStep({
           autoComplete="one-time-code"
           aria-label="6-digit verification code"
           placeholder="••••••"
-          className="w-full text-center font-mono text-2xl tracking-[0.5em] px-4 py-4 rounded-xl border border-border-soft bg-bg-soft focus:outline-none focus:border-accent transition-colors"
+          className="w-full text-center font-mono text-2xl tracking-[0.5em] px-4 py-4 rounded-xl border border-border-soft bg-white focus:outline-none focus:border-accent transition-colors"
         />
         {errors.otp && (
           <p className="text-xs text-danger" role="alert">
@@ -478,22 +523,41 @@ function OtpStep({
           <button
             type="submit"
             disabled={isSubmitting}
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-navy text-white font-semibold hover:bg-accent transition-colors disabled:opacity-60"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-navy text-white font-semibold hover:bg-accent transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            {isSubmitting ? "Verifying…" : "Verify OTP"}{" "}
-            <i className="fas fa-check" aria-hidden />
+            {isSubmitting ? (
+              <>
+                Verifying… <Spinner />
+              </>
+            ) : (
+              <>
+                Verify OTP <i className="fas fa-check" aria-hidden />
+              </>
+            )}
           </button>
         </div>
       </form>
       <p className="text-xs text-ink-muted mt-5 text-center">
         {canResend ? (
-          <button
-            type="button"
-            onClick={onResend}
-            className="text-accent font-semibold hover:underline"
-          >
-            Resend code
-          </button>
+          <>
+            Your code may have expired.{" "}
+            <button
+              type="button"
+              onClick={onResend}
+              className="text-accent font-semibold hover:underline"
+            >
+              Resend code
+            </button>{" "}
+            or{" "}
+            <button
+              type="button"
+              onClick={onBack}
+              className="text-accent font-semibold hover:underline"
+            >
+              change email
+            </button>
+            .
+          </>
         ) : (
           <>Resend available in {secondsLeft}s</>
         )}
@@ -627,10 +691,17 @@ function PaymentStep({
           type="button"
           onClick={onPay}
           disabled={submitting}
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-navy text-white font-semibold hover:bg-accent transition-colors disabled:opacity-60"
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-navy text-white font-semibold hover:bg-accent transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
         >
-          {submitting ? "Processing…" : `Pay ${formatPrice(total)}`}{" "}
-          <i className="fas fa-lock" aria-hidden />
+          {submitting ? (
+            <>
+              Processing… <Spinner />
+            </>
+          ) : (
+            <>
+              Pay {formatPrice(total)} <i className="fas fa-lock" aria-hidden />
+            </>
+          )}
         </button>
       </div>
     </div>
@@ -639,9 +710,11 @@ function PaymentStep({
 
 function SuccessStep({
   txRef,
+  signedIn,
   onClose,
 }: {
   txRef: string | null;
+  signedIn: boolean;
   onClose: () => void;
 }) {
   return (
@@ -661,13 +734,29 @@ function SuccessStep({
           Reference: <code className="font-mono">{txRef}</code>
         </p>
       )}
-      <button
-        type="button"
-        onClick={onClose}
-        className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-navy text-white font-semibold hover:bg-accent transition-colors"
-      >
-        Close
-      </button>
+      <div className="flex flex-wrap items-center justify-center gap-3">
+        {signedIn && (
+          <Link
+            href="/account"
+            onClick={onClose}
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-navy text-white font-semibold hover:bg-accent transition-colors"
+          >
+            View order history <i className="fas fa-arrow-right" aria-hidden />
+          </Link>
+        )}
+        <button
+          type="button"
+          onClick={onClose}
+          className={clsx(
+            "inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold transition-colors",
+            signedIn
+              ? "border-2 border-navy text-navy hover:bg-navy hover:text-white"
+              : "bg-navy text-white hover:bg-accent",
+          )}
+        >
+          Close
+        </button>
+      </div>
     </div>
   );
 }

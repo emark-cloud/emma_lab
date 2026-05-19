@@ -8,16 +8,26 @@ import { Button } from "@/components/ui/Button";
 import BookingModal from "./BookingModal";
 
 export default function HeroCarousel() {
-  const [index, setIndex] = useState(1);
+  const [index, setIndex] = useState(0);
   const [bookingOpen, setBookingOpen] = useState(false);
+  const [paused, setPaused] = useState(false);
 
   useEffect(() => {
+    const reduce = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    if (paused || reduce) return;
     const id = setInterval(
       () => setIndex((i) => (i + 1) % HERO_SLIDES.length),
       5000,
     );
     return () => clearInterval(id);
-  }, []);
+  }, [paused]);
+
+  const go = (dir: 1 | -1) =>
+    setIndex(
+      (i) => (i + dir + HERO_SLIDES.length) % HERO_SLIDES.length,
+    );
 
   return (
     <section
@@ -41,8 +51,14 @@ export default function HeroCarousel() {
           </Button>
         </div>
 
-        <div className="relative">
-          <div className="flex gap-4 overflow-hidden">
+        <div
+          className="relative"
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          onFocusCapture={() => setPaused(true)}
+          onBlurCapture={() => setPaused(false)}
+        >
+          <div className="relative flex gap-4 overflow-hidden">
             {HERO_SLIDES.map((slide, i) => (
               <div
                 key={slide.src}
@@ -59,10 +75,26 @@ export default function HeroCarousel() {
                   fill
                   sizes="(min-width: 1024px) 30vw, 90vw"
                   className="object-cover"
-                  priority={i === 1}
+                  priority={i === 0}
                 />
               </div>
             ))}
+            <button
+              type="button"
+              aria-label="Previous slide"
+              onClick={() => go(-1)}
+              className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 text-navy shadow-md hover:bg-white transition-colors flex items-center justify-center"
+            >
+              <i className="fas fa-chevron-left text-sm" aria-hidden />
+            </button>
+            <button
+              type="button"
+              aria-label="Next slide"
+              onClick={() => go(1)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 text-navy shadow-md hover:bg-white transition-colors flex items-center justify-center"
+            >
+              <i className="fas fa-chevron-right text-sm" aria-hidden />
+            </button>
           </div>
           <div className="flex justify-center gap-2 mt-5">
             {HERO_SLIDES.map((_, i) => (

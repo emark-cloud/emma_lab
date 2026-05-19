@@ -73,14 +73,14 @@ export default function AppointmentCta() {
                 className="object-cover"
               />
             </div>
-            <div className="absolute top-6 -left-2 bg-white text-ink rounded-2xl px-4 py-3 flex items-center gap-3 shadow-lg">
+            <div className="absolute top-6 left-2 sm:-left-2 bg-white text-ink rounded-2xl px-4 py-3 flex items-center gap-3 shadow-lg">
               <i className="fas fa-vial text-accent text-xl" aria-hidden />
               <div className="leading-tight">
                 <strong className="block text-navy">200+</strong>
                 <span className="text-xs text-ink-muted">Test Types</span>
               </div>
             </div>
-            <div className="absolute bottom-6 -right-2 bg-white text-ink rounded-2xl px-4 py-3 flex items-center gap-3 shadow-lg">
+            <div className="absolute bottom-6 right-2 sm:-right-2 bg-white text-ink rounded-2xl px-4 py-3 flex items-center gap-3 shadow-lg">
               <i className="fas fa-clock text-accent text-xl" aria-hidden />
               <div className="leading-tight">
                 <strong className="block text-navy">24h</strong>

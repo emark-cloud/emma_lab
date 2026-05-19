@@ -28,7 +28,7 @@ export default function FeaturedBundles() {
               )}
             >
               {b.featured && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-gold text-navy text-xs font-bold uppercase tracking-wider">
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-3 py-1 rounded-full bg-gold text-navy text-xs font-bold uppercase tracking-wider">
                   Most Popular
                 </div>
               )}
@@ -89,8 +89,6 @@ export default function FeaturedBundles() {
               </ul>
               <Link
                 href="/plans"
-                target="_blank"
-                rel="noopener noreferrer"
                 className={clsx(
                   "inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full text-sm font-semibold transition-all hover:-translate-y-0.5",
                   b.featured
@@ -108,8 +106,6 @@ export default function FeaturedBundles() {
         <div className="text-center mt-10">
           <Link
             href="/plans"
-            target="_blank"
-            rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-7 py-3 rounded-full border-2 border-navy text-navy text-sm font-semibold hover:bg-navy hover:text-white transition-colors"
           >
             <i className="fas fa-th-large" aria-hidden /> Browse Others
