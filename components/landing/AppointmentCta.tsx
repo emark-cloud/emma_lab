@@ -43,12 +43,6 @@ export default function AppointmentCta() {
                 Book your Appointment{" "}
                 <i className="fas fa-arrow-right" aria-hidden />
               </Button>
-              <a
-                href="tel:+2349120914837"
-                className="inline-flex items-center gap-2 px-7 py-3 rounded-full border-2 border-white/40 text-white text-sm font-semibold hover:bg-white/10 transition-colors"
-              >
-                <i className="fas fa-phone-alt" aria-hidden /> Call Now
-              </a>
             </div>
 
             <div className="flex flex-wrap gap-4">
@@ -70,7 +64,7 @@ export default function AppointmentCta() {
                 alt="Emma Lab doctor"
                 fill
                 sizes="(min-width: 1024px) 40vw, 80vw"
-                className="object-cover"
+                className="object-cover object-center"
               />
             </div>
             <div className="absolute top-6 left-2 sm:-left-2 bg-white text-ink rounded-2xl px-4 py-3 flex items-center gap-3 shadow-lg">
