@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
@@ -62,9 +62,15 @@ export const useCartUi = create<UiState>((set) => ({
   setAuthOpen: (open) => set({ authOpen: open }),
 }));
 
-/* Gate dynamic UI on Zustand-persist hydration to avoid SSR/CSR mismatches. */
+/* Gate dynamic UI on hydration to avoid SSR/CSR mismatches. The server
+   snapshot is always false and the client snapshot always true, so the
+   first client render matches the server output and flips post-hydration
+   — the canonical useSyncExternalStore hydration pattern. */
+const noopSubscribe = () => () => {};
 export function useHasHydrated(): boolean {
-  const [h, setH] = useState(false);
-  useEffect(() => setH(true), []);
-  return h;
+  return useSyncExternalStore(
+    noopSubscribe,
+    () => true,
+    () => false,
+  );
 }

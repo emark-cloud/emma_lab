@@ -83,12 +83,17 @@ export default function CheckoutModal() {
   const [error, setError] = useState("");
 
   useEffect(() => {
+    // Reset the wizard whenever the modal (re)opens. `open` is an
+    // external trigger, so resetting the transient step state here is
+    // intentional rather than a render-derivable value.
     if (open) {
+      /* eslint-disable react-hooks/set-state-in-effect */
       setStep("review");
       setCustomer(null);
       setTxRef(null);
       setMethod("card");
       setError("");
+      /* eslint-enable react-hooks/set-state-in-effect */
     }
   }, [open]);
 

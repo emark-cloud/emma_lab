@@ -52,8 +52,13 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
+    // Collapse any open menus on navigation. The pathname change is an
+    // external (router) event, so resetting transient UI here is the
+    // intended use of an effect, not a render-derived value.
+    /* eslint-disable react-hooks/set-state-in-effect */
     setMenuOpen(false);
     setAccountOpen(false);
+    /* eslint-enable react-hooks/set-state-in-effect */
   }, [pathname]);
 
   return (
