@@ -1,7 +1,9 @@
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { buttonClass } from "@/components/ui/Button";
 
-const MAPS_QUERY = "7.833025,3.923141";
+const BUSINESS = "Emma Lab Global Services Ltd";
+const ADDRESS = "No 12 Ibaraye Street, Danzaria St, Owode, Oyo 211172, Oyo";
+const MAPS_QUERY = encodeURIComponent(`${BUSINESS}, ${ADDRESS}`);
 const MAPS_URL = `https://www.google.com/maps/search/?api=1&query=${MAPS_QUERY}`;
 const DIRECTIONS_URL = `https://www.google.com/maps/dir/?api=1&destination=${MAPS_QUERY}`;
 
@@ -88,9 +90,9 @@ export default function LocationMap() {
             <address className="not-italic text-sm text-ink-body leading-relaxed">
               Emma Lab Global Services Ltd.
               <br />
-              No 12, Ibaaraye Street, Danzaria,
+              No 12 Ibaraye Street, Danzaria St,
               <br />
-              Owode, Oyo, Oyo State, Nigeria.
+              Owode, Oyo 211172, Oyo State, Nigeria.
             </address>
           </div>
 
