@@ -6,16 +6,22 @@ const CARDS = [
     icon: "fas fa-phone-alt",
     title: "Call Us",
     body: ["Mon–Sat 8am–6pm", "Sunday 10am–4pm"],
-    cta: { label: "+234 912 091 4837", href: "tel:+2349120914837" },
+    ctas: [
+      { label: "+234 813 602 5120", href: "tel:+2348136025120" },
+      { label: "+234 803 578 9680", href: "tel:+2348035789680" },
+    ],
   },
   {
-    icon: "fas fa-comment-dots",
+    icon: "fab fa-whatsapp",
     title: "Chat With Us",
     body: ["We reply within minutes", "during working hours"],
-    cta: {
-      label: "emmalabglobal@gmail.com",
-      href: "mailto:emmalabglobal@gmail.com",
-    },
+    ctas: [
+      {
+        label: "+234 912 091 4837",
+        href: "https://wa.me/2349120914837",
+        external: true,
+      },
+    ],
   },
 ];
 
@@ -49,12 +55,20 @@ export default function ContactInfoGrid() {
                   </span>
                 ))}
               </p>
-              <a
-                href={c.cta.href}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent-light text-accent text-sm font-semibold hover:bg-accent hover:text-white transition-colors mt-auto"
-              >
-                {c.cta.label}
-              </a>
+              <div className="flex flex-wrap gap-2 mt-auto">
+                {c.ctas.map((cta) => (
+                  <a
+                    key={cta.href}
+                    href={cta.href}
+                    {...("external" in cta && cta.external
+                      ? { target: "_blank", rel: "noopener noreferrer" }
+                      : {})}
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent-light text-accent text-sm font-semibold hover:bg-accent hover:text-white transition-colors"
+                  >
+                    {cta.label}
+                  </a>
+                ))}
+              </div>
             </article>
           ))}
 
@@ -73,7 +87,7 @@ export default function ContactInfoGrid() {
             </p>
             <SocialIcons
               variant="card"
-              only={["Google", "Instagram", "Facebook"]}
+              only={["X (Twitter)", "Instagram", "Facebook"]}
               className="mt-auto"
             />
           </article>

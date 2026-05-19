@@ -13,8 +13,42 @@ export default function WhyAccordion() {
             <div className="absolute inset-6 rounded-full border-2 border-accent/30 animate-[spin_16s_linear_infinite_reverse]" />
             <div className="absolute inset-12 rounded-full border-2 border-accent/40 animate-[spin_10s_linear_infinite]" />
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-24 h-24 rounded-full bg-navy text-white flex items-center justify-center text-3xl shadow-lg">
-                <i className="fas fa-flask" aria-hidden />
+              <div className="w-24 h-24 rounded-full bg-navy text-white flex items-center justify-center shadow-lg">
+                <svg viewBox="0 0 64 64" className="w-12 h-12" aria-hidden>
+                  <g
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="3.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <circle cx="25" cy="39" r="19" />
+                    <circle cx="25" cy="39" r="10.5" />
+                  </g>
+                  <circle cx="25" cy="39" r="4" fill="currentColor" />
+                  <line
+                    x1="25"
+                    y1="39"
+                    x2="56"
+                    y2="8"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="3.5"
+                    strokeLinecap="round"
+                  />
+                  <polygon
+                    points="25,39 33.5,37.6 26.4,30.5"
+                    fill="currentColor"
+                  />
+                  <path
+                    d="M56 8 l-8 2 2 7 M56 8 l-2 8 7 -2"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="3.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
               </div>
             </div>
           </div>
