@@ -58,15 +58,15 @@ export default function HeroCarousel() {
           onFocusCapture={() => setPaused(true)}
           onBlurCapture={() => setPaused(false)}
         >
-          <div className="relative flex gap-4 overflow-hidden">
+          <div className="relative flex gap-4 overflow-hidden lg:h-[420px]">
             {HERO_SLIDES.map((slide, i) => (
               <div
                 key={slide.src}
                 className={clsx(
-                  "relative rounded-2xl overflow-hidden shadow-lg transition-all duration-700 ease-out",
+                  "relative rounded-2xl overflow-hidden shadow-lg transition-[flex-grow,opacity] duration-700 ease-out",
                   i === index
-                    ? "w-full aspect-[4/3] lg:aspect-auto lg:flex-[1.6] lg:min-h-[420px]"
-                    : "hidden lg:block lg:flex-1 lg:min-h-[320px] lg:opacity-80",
+                    ? "w-full aspect-[4/3] lg:aspect-auto lg:flex-[1.6] lg:h-full"
+                    : "hidden lg:block lg:flex-1 lg:h-full lg:opacity-80",
                 )}
               >
                 <Image
