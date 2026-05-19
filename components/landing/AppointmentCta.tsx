@@ -29,9 +29,9 @@ export default function AppointmentCta() {
               Book Today
             </p>
             <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-4">
-              Want to schedule an
+              Not sure what test to take?
               <br />
-              <em className="text-gold not-italic">Appointment?</em>
+              <em className="text-gold not-italic">Book an Appointment</em>
             </h2>
             <p className="text-white/80 mb-8 max-w-md">
               Our specialists are available 6 days a week. Same-day results
