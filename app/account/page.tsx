@@ -8,6 +8,8 @@ import RevealOnScroll from "@/components/ui/RevealOnScroll";
 export const metadata: Metadata = {
   title: "My Account",
   description: "Your saved wellness plans and order history with Emma Lab.",
+  alternates: { canonical: "/account" },
+  robots: { index: false, follow: false },
 };
 
 export default async function AccountPage() {

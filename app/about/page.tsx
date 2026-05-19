@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   title: "About Us",
   description:
     "For over three decades, Emma Lab has served as a cornerstone of diagnostic excellence. Learn about our identity, impact, accreditations, and the team behind the lab.",
+  alternates: { canonical: "/about" },
 };
 
 export default function AboutPage() {

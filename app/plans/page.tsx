@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   title: "View Plans",
   description:
     "Browse Emma Lab's wellness check bundles by category, sort by price, and check out securely via OTP and Flutterwave.",
+  alternates: { canonical: "/plans" },
 };
 
 export default function PlansPage() {

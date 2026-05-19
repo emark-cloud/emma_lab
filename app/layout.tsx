@@ -35,10 +35,21 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: "Emma Lab",
-    images: ["/images/Emma Logo.png"],
+    locale: "en_NG",
+    url: "/",
+    images: [
+      {
+        url: "/images/Hero 1.png",
+        alt: "Emma Lab diagnostic services",
+      },
+    ],
   },
-  twitter: { card: "summary_large_image" },
+  twitter: {
+    card: "summary_large_image",
+    images: ["/images/Hero 1.png"],
+  },
   icons: { icon: "/images/Emma Logo.png" },
+  alternates: { canonical: "/" },
 };
 
 export const viewport: Viewport = {
