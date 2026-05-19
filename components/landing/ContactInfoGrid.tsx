@@ -5,7 +5,7 @@ const CARDS = [
   {
     icon: "fas fa-phone-alt",
     title: "Call Us",
-    body: ["Mon–Sat 8am–6pm", "Sunday 10am–4pm"],
+    body: ["Laboratory: 24 hours / 7 days", "Ultrasound & X-Ray (Mon–Sat): 8am–5pm"],
     ctas: [
       { label: "+234 813 602 5120", href: "tel:+2348136025120" },
       { label: "+234 803 578 9680", href: "tel:+2348035789680" },

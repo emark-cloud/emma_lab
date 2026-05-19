@@ -23,7 +23,7 @@ const DETAILS = [
   {
     icon: "fas fa-clock",
     label: "Hours",
-    value: "Mon–Fri: 7am–6pm  |  Sat: 8am–4pm  |  Sun: 10am–2pm",
+    value: ["Laboratory: 24 hours / 7 days", "Ultrasound & X-Ray (Mon–Sat): 8am–5pm"],
   },
 ];
 
@@ -111,6 +111,12 @@ export default function LocationMap() {
                     >
                       {d.value}
                     </a>
+                  ) : Array.isArray(d.value) ? (
+                    d.value.map((line) => (
+                      <span key={line} className="block text-sm">
+                        {line}
+                      </span>
+                    ))
                   ) : (
                     <span className="text-sm">{d.value}</span>
                   )}
