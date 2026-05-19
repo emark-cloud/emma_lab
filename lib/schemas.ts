@@ -44,20 +44,32 @@ export type SignUpInput = z.infer<typeof signUpSchema>;
 export const bookingSchema = z.object({
   fullName: z.string().trim().min(2, "Please enter your full name."),
   phone: phoneSchema,
-  testType: z.string().min(1, "Please select a test type."),
   preferredDate: z
     .string()
     .min(1, "Please choose a preferred date.")
     .refine(
       (v) => {
-        const d = new Date(v);
+        const d = new Date(`${v}T00:00:00`);
         if (Number.isNaN(d.getTime())) return false;
         const today = new Date();
         today.setHours(0, 0, 0, 0);
         return d >= today;
       },
       { message: "Pick today or a future date." },
+    )
+    .refine(
+      (v) => {
+        const day = new Date(`${v}T00:00:00`).getDay();
+        return day >= 1 && day <= 5;
+      },
+      { message: "Appointments run Monday to Friday only." },
     ),
+  preferredTime: z
+    .string()
+    .min(1, "Please choose a preferred time.")
+    .refine((v) => v >= "10:00" && v <= "16:00", {
+      message: "Pick a time between 10am and 4pm.",
+    }),
 });
 export type BookingInput = z.infer<typeof bookingSchema>;
 

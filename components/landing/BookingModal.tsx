@@ -6,9 +6,29 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Modal } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/Button";
 import { Spinner } from "@/components/ui/Spinner";
-import { TEST_OPTIONS } from "@/lib/landing-data";
 import { bookingSchema, type BookingInput } from "@/lib/schemas";
 import { useToast } from "@/lib/toast-store";
+
+/* Appointments run 10am–4pm in 30-minute slots. Value is 24h "HH:MM"
+   (what the schema validates); the label is shown to the user. */
+const TIME_SLOTS = Array.from({ length: 13 }, (_, i) => {
+  const minutes = 10 * 60 + i * 30;
+  const h = Math.floor(minutes / 60);
+  const m = minutes % 60;
+  const value = `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
+  const label = `${((h + 11) % 12) + 1}:${String(m).padStart(2, "0")} ${
+    h < 12 ? "AM" : "PM"
+  }`;
+  return { value, label };
+});
+
+/* Earliest selectable date — today, in the input's yyyy-mm-dd format. */
+const todayISO = () => {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(
+    d.getDate(),
+  ).padStart(2, "0")}`;
+};
 
 export default function BookingModal({
   open,
@@ -24,7 +44,12 @@ export default function BookingModal({
     formState: { errors, isSubmitting },
   } = useForm<BookingInput>({
     resolver: zodResolver(bookingSchema),
-    defaultValues: { fullName: "", phone: "", testType: "", preferredDate: "" },
+    defaultValues: {
+      fullName: "",
+      phone: "",
+      preferredDate: "",
+      preferredTime: "",
+    },
   });
   const showToast = useToast((s) => s.show);
   const [submitted, setSubmitted] = useState(false);
@@ -99,17 +124,32 @@ export default function BookingModal({
               />
             </Field>
           </div>
-          <Field label="Test type" error={errors.testType?.message}>
-            <select {...register("testType")} className={field}>
-              <option value="">Select Test Type</option>
-              {TEST_OPTIONS.map((t) => (
-                <option key={t}>{t}</option>
-              ))}
-            </select>
-          </Field>
-          <Field label="Preferred date" error={errors.preferredDate?.message}>
-            <input {...register("preferredDate")} type="date" className={field} />
-          </Field>
+          <div className="grid sm:grid-cols-2 gap-4">
+            <Field label="Preferred date" error={errors.preferredDate?.message}>
+              <input
+                {...register("preferredDate")}
+                type="date"
+                min={todayISO()}
+                className={field}
+              />
+              <span className="block text-xs text-ink-muted mt-1">
+                Monday to Friday only
+              </span>
+            </Field>
+            <Field label="Preferred time" error={errors.preferredTime?.message}>
+              <select {...register("preferredTime")} className={field}>
+                <option value="">Select a time</option>
+                {TIME_SLOTS.map((s) => (
+                  <option key={s.value} value={s.value}>
+                    {s.label}
+                  </option>
+                ))}
+              </select>
+              <span className="block text-xs text-ink-muted mt-1">
+                Between 10am and 4pm
+              </span>
+            </Field>
+          </div>
           <Button type="submit" className="w-full" disabled={isSubmitting}>
             {isSubmitting ? (
               <Spinner label="Submitting…" />
