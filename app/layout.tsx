@@ -78,11 +78,16 @@ export default function RootLayout({
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         />
+        <a href="#main-content" className="skip-link">
+          Skip to main content
+        </a>
         <ScrollToTopOnReload />
         <AccountSync />
         <TopBar />
         <Navbar />
-        <div className="flex-1 flex flex-col">{children}</div>
+        <main id="main-content" className="flex-1 flex flex-col">
+          {children}
+        </main>
         <Footer />
       </body>
     </html>

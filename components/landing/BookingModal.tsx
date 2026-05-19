@@ -51,6 +51,7 @@ export default function BookingModal({
             <input
               type="text"
               placeholder="Full Name"
+              aria-label="Full name"
               autoComplete="name"
               required
               className={field}
@@ -58,12 +59,18 @@ export default function BookingModal({
             <input
               type="tel"
               placeholder="Phone Number"
+              aria-label="Phone number"
               autoComplete="tel"
               required
               className={field}
             />
           </div>
-          <select required className={field} defaultValue="">
+          <select
+            required
+            aria-label="Test type"
+            className={field}
+            defaultValue=""
+          >
             <option value="" disabled>
               Select Test Type
             </option>
@@ -71,7 +78,12 @@ export default function BookingModal({
               <option key={t}>{t}</option>
             ))}
           </select>
-          <input type="date" required className={field} />
+          <input
+            type="date"
+            required
+            aria-label="Preferred date"
+            className={field}
+          />
           <Button type="submit" className="w-full">
             Confirm Booking <i className="fas fa-arrow-right" aria-hidden />
           </Button>

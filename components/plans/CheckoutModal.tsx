@@ -457,6 +457,7 @@ function OtpStep({
           inputMode="numeric"
           maxLength={6}
           autoComplete="one-time-code"
+          aria-label="6-digit verification code"
           placeholder="••••••"
           className="w-full text-center font-mono text-2xl tracking-[0.5em] px-4 py-4 rounded-xl border border-border-soft bg-bg-soft focus:outline-none focus:border-accent transition-colors"
         />
@@ -598,6 +599,7 @@ function PaymentStep({
       <RadioGroup.Root
         value={method}
         onValueChange={onMethodChange}
+        aria-label="Payment method"
         className="grid sm:grid-cols-3 gap-3 mb-6"
       >
         {PAYMENT_METHODS.map((m) => (

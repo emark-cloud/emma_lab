@@ -137,6 +137,11 @@ export default function PlanCard({ bundle }: { bundle: Bundle }) {
 
       <button
         type="button"
+        aria-label={
+          inCart
+            ? `Remove ${bundle.name} from basket`
+            : `Add ${bundle.name} to basket`
+        }
         onClick={() =>
           inCart
             ? remove(bundle.id)
