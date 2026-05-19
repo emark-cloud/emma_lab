@@ -70,6 +70,19 @@ export default function ContactForm() {
           >
             <div className="grid sm:grid-cols-2 gap-5">
               <Field
+                label="First Name"
+                error={errors.firstName?.message}
+                input={
+                  <input
+                    {...register("firstName")}
+                    type="text"
+                    placeholder="e.g. Emeka"
+                    autoComplete="given-name"
+                    className={field}
+                  />
+                }
+              />
+              <Field
                 label="Last Name"
                 error={errors.lastName?.message}
                 input={
@@ -96,26 +109,13 @@ export default function ContactForm() {
                 }
               />
               <Field
-                label="First Name"
-                error={errors.firstName?.message}
-                input={
-                  <input
-                    {...register("firstName")}
-                    type="text"
-                    placeholder="e.g. Emeka"
-                    autoComplete="given-name"
-                    className={field}
-                  />
-                }
-              />
-              <Field
                 label="Phone Number"
                 error={errors.phone?.message}
                 input={
                   <input
                     {...register("phone")}
                     type="tel"
-                    placeholder="+234 800 000 0000"
+                    placeholder="0801 234 5678"
                     autoComplete="tel"
                     className={field}
                   />

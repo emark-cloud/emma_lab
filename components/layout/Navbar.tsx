@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
+import * as Dialog from "@radix-ui/react-dialog";
 import clsx from "clsx";
 import { useCart, useCartUi, useHasHydrated } from "@/lib/cart-store";
 import { useUser } from "@/lib/hooks/useUser";
@@ -86,14 +87,7 @@ export default function Navbar() {
           </div>
         </Link>
 
-        <nav
-          className={clsx(
-            "lg:flex items-center gap-7 text-sm font-medium",
-            menuOpen
-              ? "flex flex-col absolute top-full left-0 right-0 bg-white shadow-md p-6 gap-4"
-              : "hidden",
-          )}
-        >
+        <nav className="hidden lg:flex items-center gap-7 text-sm font-medium">
           {NAV_LINKS.map(({ label, href }) => (
             <Link
               key={href}
@@ -103,38 +97,6 @@ export default function Navbar() {
               {label}
             </Link>
           ))}
-          {!authLoading && user ? (
-            <div className="lg:hidden flex flex-col gap-3 pt-3 border-t border-border-soft">
-              <span className="text-xs text-ink-muted">
-                Signed in as{" "}
-                <span className="text-navy font-medium">{user.email}</span>
-              </span>
-              <Link
-                href="/account"
-                className="text-left text-ink hover:text-accent transition-colors"
-              >
-                <i className="fas fa-user" aria-hidden /> My account
-              </Link>
-              <button
-                type="button"
-                onClick={signOut}
-                className="text-left text-ink hover:text-accent transition-colors"
-              >
-                <i className="fas fa-sign-out-alt" aria-hidden /> Sign out
-              </button>
-            </div>
-          ) : (
-            <button
-              type="button"
-              onClick={() => {
-                setMenuOpen(false);
-                setAuthOpen(true);
-              }}
-              className="lg:hidden text-left text-ink hover:text-accent transition-colors pt-3 border-t border-border-soft"
-            >
-              <i className="fas fa-user-circle" aria-hidden /> Log in
-            </button>
-          )}
         </nav>
 
         <div className="flex items-center gap-3">
@@ -210,11 +172,15 @@ export default function Navbar() {
             className="relative w-10 h-10 rounded-full bg-accent-light text-accent hover:bg-accent hover:text-white transition-colors flex items-center justify-center"
           >
             <i className="fas fa-shopping-cart" aria-hidden />
-            {hydrated && cartCount > 0 && (
-              <span className="absolute -top-1 -right-1 min-w-[20px] h-5 px-1 rounded-full bg-gold text-navy text-[11px] font-bold flex items-center justify-center">
-                {cartCount}
-              </span>
-            )}
+            <span
+              className={clsx(
+                "absolute -top-1 -right-1 min-w-[20px] h-5 px-1 rounded-full bg-gold text-navy text-[11px] font-bold flex items-center justify-center transition-opacity duration-200",
+                hydrated && cartCount > 0 ? "opacity-100" : "opacity-0",
+              )}
+              aria-hidden={!(hydrated && cartCount > 0)}
+            >
+              {hydrated ? cartCount : ""}
+            </span>
           </button>
           <button
             type="button"
@@ -244,6 +210,72 @@ export default function Navbar() {
           </button>
         </div>
       </div>
+      <Dialog.Root open={menuOpen} onOpenChange={setMenuOpen}>
+        <Dialog.Portal>
+          <Dialog.Overlay className="fixed inset-0 z-50 bg-navy/60 backdrop-blur-sm data-[state=open]:animate-in data-[state=open]:fade-in data-[state=closed]:animate-out data-[state=closed]:fade-out lg:hidden" />
+          <Dialog.Content className="fixed right-0 top-0 z-50 h-full w-full max-w-xs bg-white shadow-lg flex flex-col data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:slide-in-from-right data-[state=closed]:slide-out-to-right lg:hidden">
+            <header className="flex items-center justify-between gap-4 px-6 py-5 border-b border-border-soft">
+              <Dialog.Title className="font-display text-lg text-navy font-bold">
+                Menu
+              </Dialog.Title>
+              <Dialog.Close asChild>
+                <button
+                  aria-label="Close menu"
+                  className="w-9 h-9 rounded-full bg-bg-soft text-ink hover:bg-surface hover:rotate-90 transition-all flex items-center justify-center"
+                >
+                  <i className="fas fa-times" aria-hidden />
+                </button>
+              </Dialog.Close>
+            </header>
+            <Dialog.Description className="sr-only">
+              Site navigation and account options
+            </Dialog.Description>
+            <nav className="flex-1 overflow-y-auto px-6 py-5 flex flex-col gap-4 text-sm font-medium">
+              {NAV_LINKS.map(({ label, href }) => (
+                <Link
+                  key={href}
+                  href={href}
+                  className="text-ink hover:text-accent transition-colors"
+                >
+                  {label}
+                </Link>
+              ))}
+              {!authLoading && user ? (
+                <div className="flex flex-col gap-3 pt-4 mt-2 border-t border-border-soft">
+                  <span className="text-xs text-ink-muted">
+                    Signed in as{" "}
+                    <span className="text-navy font-medium">{user.email}</span>
+                  </span>
+                  <Link
+                    href="/account"
+                    className="text-left text-ink hover:text-accent transition-colors"
+                  >
+                    <i className="fas fa-user" aria-hidden /> My account
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={signOut}
+                    className="text-left text-ink hover:text-accent transition-colors"
+                  >
+                    <i className="fas fa-sign-out-alt" aria-hidden /> Sign out
+                  </button>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMenuOpen(false);
+                    setAuthOpen(true);
+                  }}
+                  className="text-left text-ink hover:text-accent transition-colors pt-4 mt-2 border-t border-border-soft"
+                >
+                  <i className="fas fa-user-circle" aria-hidden /> Log in
+                </button>
+              )}
+            </nav>
+          </Dialog.Content>
+        </Dialog.Portal>
+      </Dialog.Root>
       <AuthModal open={authOpen} onOpenChange={setAuthOpen} />
     </header>
   );

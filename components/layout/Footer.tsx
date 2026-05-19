@@ -41,8 +41,6 @@ export default function Footer() {
           />
           <Link
             href="/plans"
-            target="_blank"
-            rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-accent text-white text-sm font-semibold hover:bg-white hover:text-navy transition-colors"
           >
             <i className="fas fa-arrow-right" aria-hidden /> Book a Test
@@ -61,9 +59,6 @@ export default function Footer() {
                 <Link
                   key={href}
                   href={href}
-                  {...(href === "/plans"
-                    ? { target: "_blank", rel: "noopener noreferrer" }
-                    : {})}
                   className="text-white/85 hover:text-accent transition-colors"
                 >
                   {label}

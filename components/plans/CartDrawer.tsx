@@ -1,7 +1,10 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
+import clsx from "clsx";
 import * as Dialog from "@radix-ui/react-dialog";
 import { useCart, useCartUi, useHasHydrated } from "@/lib/cart-store";
+import { useToast } from "@/lib/toast-store";
 import { formatPrice } from "@/lib/format";
 
 export default function CartDrawer() {
@@ -12,8 +15,33 @@ export default function CartDrawer() {
   const remove = useCart((s) => s.remove);
   const clear = useCart((s) => s.clear);
   const total = useCart((s) => s.total());
+  const showToast = useToast((s) => s.show);
   const hydrated = useHasHydrated();
   const list = hydrated ? items : [];
+
+  /* Two-step clear: first click arms, second within 3s clears. Avoids an
+     accidental wipe without pulling in a confirm dialog. */
+  const [confirmClear, setConfirmClear] = useState(false);
+  const armTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(
+    () => () => {
+      if (armTimer.current) clearTimeout(armTimer.current);
+    },
+    [],
+  );
+
+  function onClearClick() {
+    if (!confirmClear) {
+      setConfirmClear(true);
+      armTimer.current = setTimeout(() => setConfirmClear(false), 3000);
+      return;
+    }
+    if (armTimer.current) clearTimeout(armTimer.current);
+    setConfirmClear(false);
+    clear();
+    showToast("Basket cleared", "info");
+  }
 
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
@@ -101,10 +129,15 @@ export default function CartDrawer() {
               </button>
               <button
                 type="button"
-                onClick={clear}
-                className="w-full text-xs text-ink-muted hover:text-danger transition-colors"
+                onClick={onClearClick}
+                className={clsx(
+                  "w-full text-xs transition-colors",
+                  confirmClear
+                    ? "text-danger font-semibold"
+                    : "text-ink-muted hover:text-danger",
+                )}
               >
-                Clear basket
+                {confirmClear ? "Tap again to clear basket" : "Clear basket"}
               </button>
             </footer>
           )}

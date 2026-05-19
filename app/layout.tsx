@@ -7,6 +7,7 @@ import Footer from "@/components/layout/Footer";
 import Script from "next/script";
 import ScrollToTopOnReload from "@/components/ui/ScrollToTopOnReload";
 import AccountSync from "@/components/account/AccountSync";
+import ToastViewport from "@/components/ui/Toast";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -89,6 +90,7 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
+        <ToastViewport />
       </body>
     </html>
   );

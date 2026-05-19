@@ -38,7 +38,7 @@ export default function PlansBrowser() {
     <section className="py-12">
       <div className="max-w-[var(--container-emma)] mx-auto px-6">
         <div className="flex flex-col lg:flex-row gap-4 lg:items-center lg:justify-between mb-6">
-          <div className="flex flex-wrap gap-2">
+          <div className="flex gap-2 overflow-x-auto -mx-6 px-6 lg:mx-0 lg:px-0 lg:flex-wrap lg:overflow-visible">
             {CATEGORIES.map((c) => {
               const active = activeCat === c.id;
               return (
@@ -47,7 +47,7 @@ export default function PlansBrowser() {
                   type="button"
                   onClick={() => setActiveCat(c.id as Category | "all")}
                   className={clsx(
-                    "px-4 py-2 rounded-full text-sm font-medium border transition-colors",
+                    "px-4 py-2 rounded-full text-sm font-medium border transition-colors whitespace-nowrap shrink-0",
                     active
                       ? "bg-navy text-white border-navy"
                       : "bg-white text-ink border-border-soft hover:border-accent/40",
@@ -89,18 +89,24 @@ export default function PlansBrowser() {
               )}
             </div>
 
-            <label className="flex items-center gap-2 text-sm">
+            <label className="flex items-center gap-2 text-sm shrink-0">
               <span className="text-ink-muted">Sort</span>
-              <select
-                value={sort}
-                onChange={(e) => setSort(e.target.value as Sort)}
-                className="px-3 py-2 rounded-full bg-white border border-border-soft text-sm focus:outline-none focus:border-accent transition-colors"
-              >
-                <option value="alpha-asc">A → Z</option>
-                <option value="alpha-desc">Z → A</option>
-                <option value="price-asc">Price: low → high</option>
-                <option value="price-desc">Price: high → low</option>
-              </select>
+              <div className="relative">
+                <select
+                  value={sort}
+                  onChange={(e) => setSort(e.target.value as Sort)}
+                  className="appearance-none pl-4 pr-9 py-2 rounded-full bg-white border border-border-soft text-sm focus:outline-none focus:border-accent transition-colors"
+                >
+                  <option value="alpha-asc">A → Z</option>
+                  <option value="alpha-desc">Z → A</option>
+                  <option value="price-asc">Price: low → high</option>
+                  <option value="price-desc">Price: high → low</option>
+                </select>
+                <i
+                  className="fas fa-chevron-down text-xs text-ink-muted absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
+                  aria-hidden
+                />
+              </div>
             </label>
           </div>
         </div>

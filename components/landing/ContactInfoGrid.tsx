@@ -29,7 +29,7 @@ export default function ContactInfoGrid() {
           align="center"
         />
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
           {CARDS.map((c) => (
             <article
               key={c.title}
@@ -76,30 +76,6 @@ export default function ContactInfoGrid() {
               only={["Google", "Instagram", "Facebook"]}
               className="mt-auto"
             />
-          </article>
-
-          <article
-            data-reveal="up"
-            className="bg-navy text-white rounded-2xl p-6 shadow-md"
-          >
-            <div className="w-12 h-12 rounded-full bg-white/10 text-white flex items-center justify-center text-lg mb-4">
-              <i className="fas fa-clock" aria-hidden />
-            </div>
-            <h4 className="font-display text-lg font-bold mb-3">
-              Working Hours
-            </h4>
-            <dl className="text-sm space-y-2">
-              {[
-                ["Mon – Fri", "7 am – 6 pm"],
-                ["Saturday", "8 am – 4 pm"],
-                ["Sunday", "10 am – 2 pm"],
-              ].map(([day, hours]) => (
-                <div key={day} className="flex justify-between">
-                  <dt className="text-white/70">{day}</dt>
-                  <dd className="font-medium">{hours}</dd>
-                </div>
-              ))}
-            </dl>
           </article>
         </div>
       </div>

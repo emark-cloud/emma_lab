@@ -34,7 +34,7 @@ export default function AboutSplit() {
               />
             </div>
           </div>
-          <div className="absolute -bottom-3 left-2 sm:-bottom-4 sm:left-4 bg-navy text-white rounded-2xl px-5 py-4 shadow-lg flex items-center gap-3">
+          <div className="absolute bottom-2 left-2 sm:-bottom-4 sm:left-4 bg-navy text-white rounded-2xl px-5 py-4 shadow-lg flex items-center gap-3">
             <span className="font-display text-2xl sm:text-3xl font-bold">14+</span>
             <span className="text-xs leading-tight uppercase tracking-wider">
               Years of
@@ -71,12 +71,7 @@ export default function AboutSplit() {
             ))}
           </div>
 
-          <Link
-            href="/about"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={buttonClass("primary")}
-          >
+          <Link href="/about" className={buttonClass("primary")}>
             Read More <i className="fas fa-arrow-right" aria-hidden />
           </Link>
         </div>

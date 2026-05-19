@@ -1,45 +1,45 @@
 "use client";
 
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { newsletterSchema } from "@/lib/schemas";
 import { subscribeNewsletter } from "@/lib/api";
+import { useToast } from "@/lib/toast-store";
+import { Spinner } from "@/components/ui/Spinner";
+
+type NewsletterInput = z.infer<typeof newsletterSchema>;
 
 export default function NewsletterForm() {
-  const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<"idle" | "sending" | "ok" | "error">(
-    "idle",
-  );
-  const [error, setError] = useState("");
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setError,
+    formState: { errors, isSubmitting },
+  } = useForm<NewsletterInput>({ resolver: zodResolver(newsletterSchema) });
+  const showToast = useToast((s) => s.show);
 
-  async function onSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    const val = email.trim();
-    setError("");
-    if (!val) return setError("Please enter your email address.");
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val))
-      return setError("Please enter a valid email address.");
-
-    setStatus("sending");
-    const result = await subscribeNewsletter(val);
+  async function onSubmit({ email }: NewsletterInput) {
+    const result = await subscribeNewsletter(email);
     if (result.ok) {
-      setStatus("ok");
-      setEmail("");
-      setTimeout(() => setStatus("idle"), 3500);
+      reset();
+      showToast("Subscribed — thank you!", "success");
     } else {
-      setStatus("error");
-      setError(result.message);
+      setError("email", { message: result.message });
     }
   }
 
   return (
-    <form onSubmit={onSubmit} noValidate className="w-full max-w-md">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      noValidate
+      className="w-full max-w-md"
+    >
       <div className="flex items-stretch bg-white/10 rounded-full overflow-hidden border border-white/15 focus-within:border-accent transition-colors">
         <input
+          {...register("email")}
           type="email"
-          value={email}
-          onChange={(e) => {
-            setEmail(e.target.value);
-            if (error) setError("");
-          }}
           placeholder="Email"
           autoComplete="email"
           aria-label="Email address"
@@ -47,15 +47,11 @@ export default function NewsletterForm() {
         />
         <button
           type="submit"
-          disabled={status === "sending"}
-          className="px-5 py-3 bg-accent text-white text-sm font-semibold hover:bg-navy transition-colors disabled:opacity-60"
+          disabled={isSubmitting}
+          className="px-5 py-3 bg-accent text-white text-sm font-semibold hover:bg-navy transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
         >
-          {status === "sending" ? (
-            <i className="fas fa-spinner fa-spin" aria-hidden />
-          ) : status === "ok" ? (
-            <>
-              <i className="fas fa-check" aria-hidden /> Subscribed
-            </>
+          {isSubmitting ? (
+            <Spinner label="Subscribing…" />
           ) : (
             <>
               <i className="fas fa-arrow-right" aria-hidden /> Submit
@@ -63,9 +59,9 @@ export default function NewsletterForm() {
           )}
         </button>
       </div>
-      {error && (
+      {errors.email && (
         <p className="mt-2 text-xs text-danger" role="alert">
-          {error}
+          {errors.email.message}
         </p>
       )}
     </form>

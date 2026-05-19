@@ -1,12 +1,16 @@
 "use client";
 
+import { useState } from "react";
 import clsx from "clsx";
 import { type Bundle, CATEGORY_LABELS } from "@/lib/bundles";
 import { useCart, useCartUi, useHasHydrated } from "@/lib/cart-store";
 import { useSavedPlans } from "@/lib/saved-plans-store";
+import { useToast } from "@/lib/toast-store";
 import { createClient } from "@/lib/supabase/client";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { formatPrice } from "@/lib/format";
+
+const TEST_PREVIEW = 6;
 
 export default function PlanCard({ bundle }: { bundle: Bundle }) {
   const add = useCart((s) => s.add);
@@ -14,6 +18,14 @@ export default function PlanCard({ bundle }: { bundle: Bundle }) {
   const has = useCart((s) => s.has(bundle.id));
   const hydrated = useHasHydrated();
   const inCart = hydrated && has;
+  const showToast = useToast((s) => s.show);
+
+  const [showAllTests, setShowAllTests] = useState(false);
+  const collapsible = bundle.tests.length > TEST_PREVIEW;
+  const visibleTests =
+    collapsible && !showAllTests
+      ? bundle.tests.slice(0, TEST_PREVIEW)
+      : bundle.tests;
 
   const setAuthOpen = useCartUi((s) => s.setAuthOpen);
   const toggleSaved = useSavedPlans((s) => s.toggle);
@@ -45,7 +57,7 @@ export default function PlanCard({ bundle }: { bundle: Bundle }) {
       )}
     >
       {featured && (
-        <div className="absolute -top-3 left-6 px-3 py-1 rounded-full bg-gold text-navy text-xs font-bold uppercase tracking-wider">
+        <div className="absolute top-0 left-6 -translate-y-1/2 px-3 py-1 rounded-full bg-gold text-navy text-xs font-bold uppercase tracking-wider">
           Most Popular
         </div>
       )}
@@ -120,20 +132,44 @@ export default function PlanCard({ bundle }: { bundle: Bundle }) {
         {bundle.tests.length} tests included
       </div>
 
-      <ul className="space-y-2 text-sm flex-1 mb-5 max-h-44 overflow-y-auto pr-1">
-        {bundle.tests.map((t) => (
-          <li key={t} className="flex items-start gap-2">
-            <i
-              className={clsx(
-                "fas fa-check-circle mt-0.5 shrink-0",
-                featured ? "text-gold" : "text-teal",
-              )}
-              aria-hidden
-            />
-            {t}
-          </li>
-        ))}
-      </ul>
+      <div className="flex-1 mb-5">
+        <ul className="space-y-2 text-sm">
+          {visibleTests.map((t) => (
+            <li key={t} className="flex items-start gap-2">
+              <i
+                className={clsx(
+                  "fas fa-check-circle mt-0.5 shrink-0",
+                  featured ? "text-gold" : "text-teal",
+                )}
+                aria-hidden
+              />
+              {t}
+            </li>
+          ))}
+        </ul>
+        {collapsible && (
+          <button
+            type="button"
+            onClick={() => setShowAllTests((v) => !v)}
+            aria-expanded={showAllTests}
+            className={clsx(
+              "mt-3 text-sm font-semibold hover:underline",
+              featured ? "text-gold" : "text-accent",
+            )}
+          >
+            {showAllTests ? (
+              <>
+                Show less <i className="fas fa-chevron-up text-xs" aria-hidden />
+              </>
+            ) : (
+              <>
+                Show all {bundle.tests.length} tests{" "}
+                <i className="fas fa-chevron-down text-xs" aria-hidden />
+              </>
+            )}
+          </button>
+        )}
+      </div>
 
       <button
         type="button"
@@ -142,11 +178,15 @@ export default function PlanCard({ bundle }: { bundle: Bundle }) {
             ? `Remove ${bundle.name} from basket`
             : `Add ${bundle.name} to basket`
         }
-        onClick={() =>
-          inCart
-            ? remove(bundle.id)
-            : add({ id: bundle.id, name: bundle.name, price: bundle.price })
-        }
+        onClick={() => {
+          if (inCart) {
+            remove(bundle.id);
+            showToast(`${bundle.name} removed from basket`, "info");
+          } else {
+            add({ id: bundle.id, name: bundle.name, price: bundle.price });
+            showToast(`${bundle.name} added to basket`, "success");
+          }
+        }}
         className={clsx(
           "inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full text-sm font-semibold transition-all hover:-translate-y-0.5",
           inCart

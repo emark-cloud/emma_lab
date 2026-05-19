@@ -143,4 +143,10 @@
     transition-duration: .001ms !important;
     scroll-behavior: auto !important;
   }
+  /* Loading spinners must keep turning to read as "in progress" — exempt
+     the FA spin from the global clamp, just slow it down. */
+  .fa-spin {
+    animation-duration: 1.5s !important;
+    animation-iteration-count: infinite !important;
+  }
 }

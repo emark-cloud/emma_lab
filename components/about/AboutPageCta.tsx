@@ -15,7 +15,7 @@ export default function AboutPageCta() {
           </div>
           <div className="flex flex-wrap gap-3">
             <Link
-              href="/#wellness"
+              href="/plans"
               className="inline-flex items-center gap-2 px-7 py-3 rounded-full bg-white text-navy text-sm font-semibold hover:bg-accent-light transition-colors"
             >
               View Wellness Bundles{" "}
