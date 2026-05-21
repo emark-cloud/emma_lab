@@ -5,6 +5,7 @@ import clsx from "clsx";
 import {
   INVESTIGATIONS,
   INVESTIGATION_CATEGORIES,
+  matchesInvestigation,
   type Investigation,
   type InvestigationCategory,
 } from "@/lib/investigations";
@@ -28,21 +29,18 @@ export default function InvestigationsGrid({ activeCategory }: Props) {
   const [query, setQuery] = useState("");
   const [showAll, setShowAll] = useState(false);
 
-  const trimmed = query.trim().toLowerCase();
-  const searching = trimmed.length > 0;
+  const searching = query.trim().length > 0;
 
   const labCategory = isLabCategory(activeCategory);
   const showCategoryBadge = searching || !labCategory;
 
   const results = useMemo<Investigation[]>(() => {
     if (searching) {
-      return INVESTIGATIONS.filter((i) =>
-        i.name.toLowerCase().includes(trimmed),
-      );
+      return INVESTIGATIONS.filter((i) => matchesInvestigation(i, query));
     }
     if (!labCategory) return INVESTIGATIONS;
     return INVESTIGATIONS.filter((i) => i.category === activeCategory);
-  }, [searching, trimmed, labCategory, activeCategory]);
+  }, [searching, query, labCategory, activeCategory]);
 
   const collapsible = !searching && results.length > PREVIEW_COUNT;
   const visible = collapsible && !showAll ? results.slice(0, PREVIEW_COUNT) : results;
