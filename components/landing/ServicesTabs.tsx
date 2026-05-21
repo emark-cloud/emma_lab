@@ -1,12 +1,16 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import * as Tabs from "@radix-ui/react-tabs";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { SERVICES } from "@/lib/landing-data";
+import InvestigationsGrid from "./InvestigationsGrid";
 
 export default function ServicesTabs() {
+  const [active, setActive] = useState(SERVICES[0].id);
+
   return (
     <section id="what-we-do" className="py-12 sm:py-16 lg:py-20 bg-bg-soft">
       <div className="max-w-[var(--container-emma)] mx-auto px-6">
@@ -18,7 +22,8 @@ export default function ServicesTabs() {
         />
 
         <Tabs.Root
-          defaultValue={SERVICES[0].id}
+          value={active}
+          onValueChange={setActive}
           orientation="vertical"
           className="grid lg:grid-cols-[280px_1fr] gap-8"
         >
@@ -85,6 +90,8 @@ export default function ServicesTabs() {
             </Tabs.Content>
           ))}
         </Tabs.Root>
+
+        <InvestigationsGrid activeCategory={active} />
       </div>
     </section>
   );
