@@ -12,29 +12,18 @@ import {
   useHasHydrated,
 } from "@/lib/cart-store";
 import { formatPrice } from "@/lib/format";
-import {
-  customerSchema,
-  otpSchema,
-  type CustomerInput,
-} from "@/lib/schemas";
-import {
-  sendOtp,
-  verifyOtp,
-  initiatePayment,
-  verifyPayment,
-} from "@/lib/api";
-import { useOtpTimer } from "@/lib/hooks/useOtpTimer";
+import { customerSchema, type CustomerInput } from "@/lib/schemas";
+import { initiatePayment, verifyPayment } from "@/lib/api";
 import { useUser } from "@/lib/hooks/useUser";
 import { recordOrder } from "@/lib/supabase/account";
 import { Spinner } from "@/components/ui/Spinner";
 import Link from "next/link";
 
-type Step = "review" | "details" | "otp" | "payment" | "success";
+type Step = "review" | "details" | "payment" | "success";
 
 const STEPS: { id: Step; label: string }[] = [
   { id: "review", label: "Review" },
   { id: "details", label: "Details" },
-  { id: "otp", label: "Verify" },
   { id: "payment", label: "Pay" },
   { id: "success", label: "Done" },
 ];
@@ -47,7 +36,9 @@ const PAYMENT_METHODS = [
 
 declare global {
   interface Window {
-    FlutterwaveCheckout?: (options: Record<string, unknown>) => void;
+    PaystackPop?: {
+      setup: (options: Record<string, unknown>) => { openIframe: () => void };
+    };
   }
 }
 
@@ -98,7 +89,7 @@ export default function CheckoutModal() {
   }, [open]);
 
   /* Single transition point so every step change also clears any stale
-     error banner from the previous step (e.g. a failed OTP/payment). */
+     error banner from the previous step (e.g. a failed payment). */
   const goTo = (s: Step) => {
     setError("");
     setStep(s);
@@ -107,8 +98,11 @@ export default function CheckoutModal() {
   if (!hydrated) return null;
 
   return (
-    <Dialog.Root open={open} onOpenChange={setOpen}>
+    <Dialog.Root open={open} onOpenChange={setOpen} modal={false}>
       <Dialog.Portal>
+        {/* modal=false so the Paystack inline iframe (rendered at body level)
+            still receives clicks — Radix's default focus/pointer trap blocks
+            Paystack's test-mode helper buttons otherwise. */}
         <Dialog.Overlay className="fixed inset-0 bg-navy/60 backdrop-blur-sm z-50 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out data-[state=open]:fade-in" />
         <Dialog.Content className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-[92vw] max-w-2xl bg-white rounded-2xl shadow-lg p-8 md:p-10 max-h-[92vh] overflow-y-auto">
           <Dialog.Close asChild>
@@ -158,28 +152,10 @@ export default function CheckoutModal() {
             <DetailsStep
               initial={customer ?? prefill}
               onBack={() => goTo("review")}
-              onSubmit={async (values) => {
-                setError("");
+              onSubmit={(values) => {
                 setCustomer(values);
-                const r = await sendOtp(
-                  values.email,
-                  `${values.firstName} ${values.lastName}`,
-                );
-                if (!r.ok) {
-                  setError(r.message);
-                  return;
-                }
-                setStep("otp");
+                goTo("payment");
               }}
-            />
-          )}
-          {step === "otp" && customer && (
-            <OtpStep
-              email={customer.email}
-              name={`${customer.firstName} ${customer.lastName}`}
-              onBack={() => goTo("details")}
-              onSuccess={() => goTo("payment")}
-              onError={setError}
             />
           )}
           {step === "payment" && customer && (
@@ -189,7 +165,7 @@ export default function CheckoutModal() {
               total={total}
               method={method}
               onMethodChange={setMethod}
-              onBack={() => goTo("otp")}
+              onBack={() => goTo("details")}
               onSuccess={(ref) => {
                 setError("");
                 setTxRef(ref);
@@ -342,7 +318,7 @@ function DetailsStep({
 }: {
   initial: CustomerInput;
   onBack: () => void;
-  onSubmit: (values: CustomerInput) => Promise<void>;
+  onSubmit: (values: CustomerInput) => void;
 }) {
   const {
     register,
@@ -441,133 +417,16 @@ function DetailsStep({
         >
           {isSubmitting ? (
             <>
-              Sending OTP… <Spinner />
+              Continuing… <Spinner />
             </>
           ) : (
             <>
-              Send OTP <i className="fas fa-paper-plane" aria-hidden />
+              Continue to payment <i className="fas fa-arrow-right" aria-hidden />
             </>
           )}
         </button>
       </div>
     </form>
-  );
-}
-
-function OtpStep({
-  email,
-  name,
-  onBack,
-  onSuccess,
-  onError,
-}: {
-  email: string;
-  name: string;
-  onBack: () => void;
-  onSuccess: () => void;
-  onError: (msg: string) => void;
-}) {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<{ otp: string }>({ resolver: zodResolver(otpSchema) });
-  const { secondsLeft, start, canResend } = useOtpTimer(60);
-
-  useEffect(() => {
-    start(60);
-  }, [start]);
-
-  async function onResend() {
-    onError("");
-    const r = await sendOtp(email, name, true);
-    if (!r.ok) onError(r.message);
-    else start(60);
-  }
-
-  async function onVerify({ otp }: { otp: string }) {
-    onError("");
-    const r = await verifyOtp(email, otp);
-    if (!r.ok) {
-      onError(r.message);
-      return;
-    }
-    onSuccess();
-  }
-
-  return (
-    <div>
-      <p className="text-ink-body text-sm mb-5">
-        We sent a 6-digit code to <strong className="text-navy">{email}</strong>
-        . Enter it below to verify your identity.
-      </p>
-      <form onSubmit={handleSubmit(onVerify)} noValidate className="space-y-4">
-        <input
-          {...register("otp")}
-          inputMode="numeric"
-          maxLength={6}
-          autoComplete="one-time-code"
-          aria-label="6-digit verification code"
-          placeholder="••••••"
-          className="w-full text-center font-mono text-2xl tracking-[0.5em] px-4 py-4 rounded-xl border border-border-soft bg-white focus:outline-none focus:border-accent transition-colors"
-        />
-        {errors.otp && (
-          <p className="text-xs text-danger" role="alert">
-            {errors.otp.message}
-          </p>
-        )}
-
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <button
-            type="button"
-            onClick={onBack}
-            className="text-sm text-ink-muted hover:text-navy"
-          >
-            ← Back
-          </button>
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-navy text-white font-semibold hover:bg-accent transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
-          >
-            {isSubmitting ? (
-              <>
-                Verifying… <Spinner />
-              </>
-            ) : (
-              <>
-                Verify OTP <i className="fas fa-check" aria-hidden />
-              </>
-            )}
-          </button>
-        </div>
-      </form>
-      <p className="text-xs text-ink-muted mt-5 text-center">
-        {canResend ? (
-          <>
-            Your code may have expired.{" "}
-            <button
-              type="button"
-              onClick={onResend}
-              className="text-accent font-semibold hover:underline"
-            >
-              Resend code
-            </button>{" "}
-            or{" "}
-            <button
-              type="button"
-              onClick={onBack}
-              className="text-accent font-semibold hover:underline"
-            >
-              change email
-            </button>
-            .
-          </>
-        ) : (
-          <>Resend available in {secondsLeft}s</>
-        )}
-      </p>
-    </div>
   );
 }
 
@@ -612,15 +471,15 @@ function PaymentStep({
     }
 
     const txRef = init.data.txRef;
-    const publicKey = process.env.NEXT_PUBLIC_FLW_PUBLIC_KEY;
+    const publicKey = process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY;
 
-    if (!publicKey || typeof window.FlutterwaveCheckout !== "function") {
-      // Fallback for local dev without Flutterwave script — verify directly.
+    if (!publicKey || typeof window.PaystackPop?.setup !== "function") {
+      // Fallback for local dev without a Paystack key — verify directly.
       const v = await verifyPayment({
-        transaction_id: `dev-${Date.now()}`,
-        tx_ref: txRef,
+        reference: txRef,
         expected_amount: total,
         expected_currency: "NGN",
+        dev: true,
       });
       setSubmitting(false);
       if (!v.ok) onError(v.message);
@@ -628,35 +487,53 @@ function PaymentStep({
       return;
     }
 
-    window.FlutterwaveCheckout({
-      public_key: publicKey,
-      tx_ref: txRef,
-      amount: total,
+    const channels =
+      method === "card"
+        ? ["card"]
+        : method === "transfer"
+          ? ["bank_transfer"]
+          : method === "ussd"
+            ? ["ussd"]
+            : ["card", "bank_transfer", "ussd"];
+
+    const handler = window.PaystackPop.setup({
+      key: publicKey,
+      email: customer.email,
+      amount: Math.round(total * 100), // NGN → kobo
       currency: "NGN",
-      payment_options: method === "card" ? "card" : method,
-      customer: {
-        email: customer.email,
-        phone_number: customer.phone,
-        name: `${customer.firstName} ${customer.lastName}`,
+      ref: txRef,
+      channels,
+      firstname: customer.firstName,
+      lastname: customer.lastName,
+      phone: customer.phone,
+      metadata: {
+        custom_fields: [
+          {
+            display_name: "Phone",
+            variable_name: "phone",
+            value: customer.phone,
+          },
+          {
+            display_name: "Items",
+            variable_name: "items",
+            value: items.map((i) => i.name).join(", "),
+          },
+        ],
       },
-      customizations: {
-        title: "Emma Lab",
-        description: items.map((i) => i.name).join(", "),
-        logo: "/images/Emma Logo.png",
-      },
-      callback: async (data: { transaction_id?: string }) => {
-        const v = await verifyPayment({
-          transaction_id: data.transaction_id ?? "",
-          tx_ref: txRef,
+      callback: (response: { reference: string }) => {
+        verifyPayment({
+          reference: response.reference,
           expected_amount: total,
           expected_currency: "NGN",
+        }).then((v) => {
+          setSubmitting(false);
+          if (!v.ok) onError(v.message);
+          else onSuccess(txRef);
         });
-        setSubmitting(false);
-        if (!v.ok) onError(v.message);
-        else onSuccess(txRef);
       },
-      onclose: () => setSubmitting(false),
+      onClose: () => setSubmitting(false),
     });
+    handler.openIframe();
   }
 
   return (

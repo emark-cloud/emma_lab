@@ -3,7 +3,7 @@ import { z } from "zod";
 /* Nigeria-aware phone. Accepts 0XXXXXXXXXX, 234XXXXXXXXXX, +234XXXXXXXXXX
    (spaces tolerated by stripping before the regex test). Shared by the
    contact, checkout, and booking forms. Client-side constraint only —
-   the raw value is still what gets POSTed to the backend / Flutterwave. */
+   the raw value is still what gets POSTed to the backend / Paystack. */
 export const phoneSchema = z
   .string()
   .trim()
@@ -22,10 +22,6 @@ export type ContactInput = z.infer<typeof contactSchema>;
 
 export const newsletterSchema = z.object({
   email: z.string().trim().email("Please enter a valid email address."),
-});
-
-export const otpSchema = z.object({
-  otp: z.string().regex(/^\d{6}$/, "OTP must be 6 digits."),
 });
 
 export const signInSchema = z.object({

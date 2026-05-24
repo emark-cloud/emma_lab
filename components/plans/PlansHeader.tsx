@@ -17,7 +17,7 @@ export default function PlansHeader() {
         <p className="mt-4 text-ink-body max-w-2xl">
           Curated diagnostic packages at transparent prices. Filter by category,
           sort by what matters to you, and add bundles to your basket — checkout
-          happens securely via OTP and Flutterwave.
+          happens securely via OTP and Paystack.
         </p>
       </div>
     </section>

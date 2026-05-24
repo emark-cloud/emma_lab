@@ -100,7 +100,7 @@ export default function RootLayout({
         <BackToTop />
         <ToastViewport />
         <Script
-          src="https://checkout.flutterwave.com/v3.js"
+          src="https://js.paystack.co/v1/inline.js"
           strategy="afterInteractive"
         />
       </body>

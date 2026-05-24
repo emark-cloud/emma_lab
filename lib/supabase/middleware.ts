@@ -10,7 +10,7 @@ export async function updateSession(request: NextRequest) {
   const response = NextResponse.next();
 
   // Until Supabase env vars are set, skip auth entirely so the site still
-  // serves (mirrors the Flutterwave dev fallback).
+  // serves (mirrors the Paystack dev fallback).
   if (!isSupabaseConfigured) return response;
 
   const supabase = createServerClient(SUPABASE_URL, SUPABASE_KEY, {

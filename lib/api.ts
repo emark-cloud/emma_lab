@@ -1,8 +1,7 @@
 /* Typed wrapper around the Express backend.
    All endpoints normalise to { ok, data?, message? } at the call site. */
 
-const API_BASE =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api";
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "/api";
 
 export type ApiResult<T = unknown> =
   | { ok: true; data: T }
@@ -45,13 +44,7 @@ export const submitContact = (p: ContactPayload) =>
 export const subscribeNewsletter = (email: string) =>
   postJson<{ message: string }>("/newsletter", { email });
 
-/* ── Checkout: OTP + payment ──────────────────────── */
-export const sendOtp = (email: string, name: string, resend = false) =>
-  postJson<{ message: string }>("/send-otp", { email, name, resend });
-
-export const verifyOtp = (email: string, otp: string) =>
-  postJson<{ message: string }>("/verify-otp", { email, otp });
-
+/* ── Checkout: payment ────────────────────────────── */
 export type InitiatePaymentPayload = {
   email: string;
   name: string;
@@ -64,8 +57,8 @@ export const initiatePayment = (p: InitiatePaymentPayload) =>
   postJson<{ txRef: string }>("/initiate-payment", p);
 
 export const verifyPayment = (params: {
-  transaction_id: string | number;
-  tx_ref: string;
+  reference: string;
   expected_amount?: number;
   expected_currency?: string;
+  dev?: boolean;
 }) => postJson<{ verified: boolean }>("/verify-payment", params);
