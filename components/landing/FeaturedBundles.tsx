@@ -101,6 +101,8 @@ export default function FeaturedBundles() {
         <div className="text-center mt-10">
           <Link
             href="/plans"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-7 py-3 rounded-full border-2 border-navy text-navy text-sm font-semibold hover:bg-navy hover:text-white transition-colors"
           >
             <i className="fas fa-th-large" aria-hidden /> Browse Others

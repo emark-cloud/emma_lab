@@ -51,7 +51,7 @@ export default function AboutSplit() {
             description="It's the dedication of a focused team that drives meaningful change and significantly enhances patients' well-being."
             className="mb-6"
           />
-          <p className="text-ink-body mb-8">
+          <p className="text-ink-body text-base md:text-lg leading-relaxed mb-8">
             We stay always striving towards excellence and perfection to provide
             help through our diagnostic processes including laboratory services,
             medical imaging and beyond.
@@ -71,7 +71,12 @@ export default function AboutSplit() {
             ))}
           </div>
 
-          <Link href="/about" className={buttonClass("primary")}>
+          <Link
+            href="/about"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={buttonClass("primary")}
+          >
             Read More <i className="fas fa-arrow-right" aria-hidden />
           </Link>
         </div>

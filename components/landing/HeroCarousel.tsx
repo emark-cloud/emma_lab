@@ -2,14 +2,13 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import clsx from "clsx";
 import { HERO_SLIDES } from "@/lib/landing-data";
-import { Button } from "@/components/ui/Button";
-import BookingModal from "./BookingModal";
+import { buttonClass } from "@/components/ui/Button";
 
 export default function HeroCarousel() {
   const [index, setIndex] = useState(0);
-  const [bookingOpen, setBookingOpen] = useState(false);
   const [paused, setPaused] = useState(false);
 
   useEffect(() => {
@@ -37,18 +36,26 @@ export default function HeroCarousel() {
       <div className="max-w-[var(--container-emma)] mx-auto px-6 py-10 sm:py-14 lg:py-24 grid lg:grid-cols-2 gap-12 items-center">
         <div className="space-y-6">
           <h1 className="font-display text-4xl md:text-5xl lg:text-6xl text-navy leading-[1.1] font-bold">
-            Your
+            <span className="font-normal">Your</span>
             <br />
-            <strong className="text-accent">Trusted Partner</strong> in
+            <strong className="text-[1.15em]">Trusted Partner</strong>
             <br />
-            <strong>Diagnostic Excellence</strong>
+            <span className="font-normal">in</span>{" "}
+            <strong className="text-[1.15em]">Diagnostic</strong>
+            <br />
+            <strong className="text-[1.15em]">Excellence</strong>
           </h1>
           <p className="text-lg text-ink-body max-w-md">
             We provide accurate, precise and timely results.
           </p>
-          <Button onClick={() => setBookingOpen(true)} variant="primary">
+          <Link
+            href="/diagnostic-tests"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={buttonClass("primary")}
+          >
             <i className="fas fa-arrow-right" aria-hidden /> Book a Test
-          </Button>
+          </Link>
         </div>
 
         <div
@@ -58,15 +65,21 @@ export default function HeroCarousel() {
           onFocusCapture={() => setPaused(true)}
           onBlurCapture={() => setPaused(false)}
         >
-          <div className="relative flex gap-4 overflow-hidden lg:h-[420px]">
+          <div className="relative flex gap-4 overflow-hidden rounded-2xl bg-white lg:h-[420px]">
             {HERO_SLIDES.map((slide, i) => (
-              <div
+              <button
+                type="button"
                 key={slide.src}
+                onClick={() => setIndex(i)}
+                onMouseEnter={() => setIndex(i)}
+                onFocus={() => setIndex(i)}
+                aria-label={slide.alt}
+                aria-pressed={i === index}
                 className={clsx(
-                  "relative rounded-2xl overflow-hidden shadow-lg transition-[flex-grow,opacity] duration-700 ease-out",
+                  "group relative rounded-2xl overflow-hidden shadow-lg text-left bg-transparent transition-[flex-grow,filter] duration-700 ease-out focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2",
                   i === index
-                    ? "w-full aspect-[4/3] lg:aspect-auto lg:flex-[1.6] lg:h-full"
-                    : "hidden lg:block lg:flex-1 lg:h-full lg:opacity-80",
+                    ? "w-full aspect-[4/3] lg:aspect-auto lg:flex-[2.8] lg:h-full"
+                    : "hidden lg:block lg:flex-[0.8] lg:h-full lg:brightness-[0.45] lg:saturate-50 lg:hover:brightness-100 lg:hover:saturate-100 lg:cursor-pointer",
                 )}
               >
                 <Image
@@ -74,10 +87,13 @@ export default function HeroCarousel() {
                   alt={slide.alt}
                   fill
                   sizes="(min-width: 1024px) 30vw, 90vw"
-                  className="object-cover"
+                  className={clsx(
+                    "object-cover transition-transform duration-700 ease-out",
+                    i === index ? "scale-100" : "scale-105 group-hover:scale-100",
+                  )}
                   priority={i === 0}
                 />
-              </div>
+              </button>
             ))}
             <button
               type="button"
@@ -111,8 +127,6 @@ export default function HeroCarousel() {
           </div>
         </div>
       </div>
-
-      <BookingModal open={bookingOpen} onOpenChange={setBookingOpen} />
     </section>
   );
 }

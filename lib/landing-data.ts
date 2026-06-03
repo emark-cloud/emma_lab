@@ -209,19 +209,16 @@ export const PERKS = [
 
 export const HERO_SLIDES = [
   {
-    src: "/images/Hero 2.png",
-    webp: "/images/Hero 2.webp",
-    alt: "Lab scientist working at a microscope",
+    src: "/images/hero-ultrasound.jpg",
+    alt: "Obstetric ultrasound scan on a diagnostic monitor",
   },
   {
-    src: "/images/Hero 1.png",
-    webp: "/images/Hero 1.webp",
-    alt: "Blood samples being prepared for analysis",
+    src: "/images/hero-xray.jpg",
+    alt: "X-ray technician examining an X-ray film",
   },
   {
-    src: "/images/Hero 3.png",
-    webp: "/images/Hero 3.webp",
-    alt: "Doctor consulting with a patient",
+    src: "/images/hero-chemistry.jpg",
+    alt: "Clinical chemistry blood sample tubes in a medical laboratory",
   },
 ];
 

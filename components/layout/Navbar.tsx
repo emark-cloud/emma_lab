@@ -33,6 +33,13 @@ export default function Navbar() {
   const hydrated = useHasHydrated();
   const { user, loading: authLoading } = useUser();
 
+  const isActive = (href: string) => {
+    const path = href.split("#")[0] || "/";
+    // Section anchors (e.g. "/#contact") shouldn't claim the page itself.
+    if (href.includes("#")) return pathname === path && href === pathname;
+    return path === "/" ? pathname === "/" : pathname.startsWith(path);
+  };
+
   const displayName =
     (user?.user_metadata?.full_name as string | undefined) ||
     user?.email ||
@@ -109,7 +116,11 @@ export default function Navbar() {
             <Link
               key={href}
               href={href}
-              className="text-ink hover:text-accent transition-colors"
+              aria-current={isActive(href) ? "page" : undefined}
+              className={clsx(
+                "transition-colors hover:text-accent",
+                isActive(href) ? "text-accent font-semibold" : "text-ink",
+              )}
             >
               {label}
             </Link>
@@ -252,7 +263,11 @@ export default function Navbar() {
                 <Link
                   key={href}
                   href={href}
-                  className="text-ink hover:text-accent transition-colors"
+                  aria-current={isActive(href) ? "page" : undefined}
+                  className={clsx(
+                    "transition-colors hover:text-accent",
+                    isActive(href) ? "text-accent font-semibold" : "text-ink",
+                  )}
                 >
                   {label}
                 </Link>

@@ -2,9 +2,17 @@ import clsx from "clsx";
 
 const ICONS = [
   { label: "Google", icon: "fab fa-google", href: "#" },
-  { label: "Instagram", icon: "fab fa-instagram", href: "#" },
-  { label: "Facebook", icon: "fab fa-facebook-f", href: "#" },
-  { label: "X (Twitter)", icon: "fab fa-x-twitter", href: "#" },
+  {
+    label: "Instagram",
+    icon: "fab fa-instagram",
+    href: "https://www.instagram.com/emmalabglobal?igsh=MWk5bGpibWU0aTQweA==",
+  },
+  {
+    label: "Facebook",
+    icon: "fab fa-facebook-f",
+    href: "https://www.facebook.com/share/1EJGGXXTzV/",
+  },
+  { label: "X (Twitter)", icon: "fab fa-x-twitter", href: "https://x.com/emmalabglobal" },
 ] as const;
 
 type Variant = "topbar" | "footer" | "card";
@@ -32,11 +40,20 @@ export function SocialIcons({
 
   return (
     <div className={clsx("flex items-center gap-3", className)}>
-      {list.map(({ label, icon, href }) => (
-        <a key={label} href={href} aria-label={label} className={itemClass}>
-          <i className={icon} aria-hidden />
-        </a>
-      ))}
+      {list.map(({ label, icon, href }) => {
+        const external = href !== "#";
+        return (
+          <a
+            key={label}
+            href={href}
+            aria-label={label}
+            className={itemClass}
+            {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+          >
+            <i className={icon} aria-hidden />
+          </a>
+        );
+      })}
     </div>
   );
 }

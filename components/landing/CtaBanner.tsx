@@ -13,7 +13,7 @@ export default function CtaBanner() {
           </div>
           <div className="flex flex-wrap gap-3">
             <a
-              href="/plans"
+              href="/diagnostic-tests"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-7 py-3 rounded-full bg-white text-navy text-sm font-semibold hover:bg-accent-light transition-colors"
