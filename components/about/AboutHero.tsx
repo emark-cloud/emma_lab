@@ -37,7 +37,9 @@ export default function AboutHero() {
                 Explore Our Story <i className="fas fa-arrow-down" aria-hidden />
               </a>
               <Link
-                href="/#contact"
+                href="/contact"
+                target="_blank"
+                rel="noopener noreferrer"
                 className={buttonClass("outline-navy")}
               >
                 <i className="fas fa-envelope" aria-hidden /> Get in Touch

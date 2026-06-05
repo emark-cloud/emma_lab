@@ -74,6 +74,40 @@ export async function sendContactEmail(input: {
   });
 }
 
+export async function sendBookingEmail(input: {
+  fullName: string;
+  phone: string;
+  preferredDate: string;
+  preferredTime: string;
+}): Promise<void> {
+  const safe = {
+    fullName: escapeHtml(input.fullName),
+    phone: escapeHtml(input.phone),
+    preferredDate: escapeHtml(input.preferredDate),
+    preferredTime: escapeHtml(input.preferredTime),
+  };
+  await getTransporter().sendMail({
+    from: `"Emma Lab Site" <${SMTP_USER}>`,
+    to: CONTACT_TO,
+    subject: `New appointment booking — ${input.fullName}`,
+    text:
+      `New appointment booking\n\n` +
+      `Name:  ${input.fullName}\n` +
+      `Phone: ${input.phone}\n` +
+      `Date:  ${input.preferredDate}\n` +
+      `Time:  ${input.preferredTime}`,
+    html: `<div style="font-family:Segoe UI,sans-serif;max-width:560px;margin:0 auto;padding:24px;background:#f5f8fb;">
+  <div style="background:#fff;border-radius:12px;padding:28px;box-shadow:0 4px 16px rgba(13,45,79,.08);">
+    <h2 style="color:#0d2d4f;margin:0 0 16px;">New Appointment Booking</h2>
+    <p><strong>Name:</strong> ${safe.fullName}</p>
+    <p><strong>Phone:</strong> ${safe.phone}</p>
+    <p><strong>Preferred Date:</strong> ${safe.preferredDate}</p>
+    <p><strong>Preferred Time:</strong> ${safe.preferredTime}</p>
+  </div>
+</div>`,
+  });
+}
+
 export async function sendNewsletterEmail(email: string): Promise<void> {
   await getTransporter().sendMail({
     from: `"Emma Lab Site" <${SMTP_USER}>`,

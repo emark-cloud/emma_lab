@@ -7,6 +7,7 @@ import { Modal } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/Button";
 import { Spinner } from "@/components/ui/Spinner";
 import { bookingSchema, type BookingInput } from "@/lib/schemas";
+import { submitBooking } from "@/lib/api";
 import { useToast } from "@/lib/toast-store";
 
 /* Appointments run 10am–4pm in 30-minute slots. Value is 24h "HH:MM"
@@ -53,17 +54,23 @@ export default function BookingModal({
   });
   const showToast = useToast((s) => s.show);
   const [submitted, setSubmitted] = useState(false);
+  const [serverError, setServerError] = useState("");
 
-  // No booking endpoint exists yet (see lib/api.ts) — this stays a validated
-  // client-only confirmation. Wire to a real route once the backend adds one.
-  function onSubmit() {
-    setSubmitted(true);
-    showToast("Booking received", "success");
+  async function onSubmit(values: BookingInput) {
+    setServerError("");
+    const result = await submitBooking(values);
+    if (result.ok) {
+      setSubmitted(true);
+      showToast("Booking received", "success");
+    } else {
+      setServerError(result.message);
+    }
   }
 
   function close() {
     onOpenChange(false);
     setSubmitted(false);
+    setServerError("");
     reset();
   }
 
@@ -150,6 +157,9 @@ export default function BookingModal({
               </span>
             </Field>
           </div>
+          {serverError && (
+            <p className="text-sm text-danger" role="alert">{serverError}</p>
+          )}
           <Button type="submit" className="w-full" disabled={isSubmitting}>
             {isSubmitting ? (
               <Spinner label="Submitting…" />

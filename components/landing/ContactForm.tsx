@@ -30,11 +30,11 @@ export default function ContactForm() {
   }
 
   const field =
-    "w-full px-4 py-3 rounded-xl border border-border-soft bg-white focus:outline-none focus:border-accent transition-colors";
+    "w-full px-4 py-3 rounded-sm border border-border-soft bg-white focus:outline-none focus:border-accent transition-colors";
 
   return (
     <section id="message" className="py-12 sm:py-16 lg:py-20">
-      <div className="max-w-3xl mx-auto px-6" data-reveal="up">
+      <div className="max-w-[var(--container-emma)] mx-auto px-6" data-reveal="up">
         <SectionHeader
           eyebrow="We'd Love to Hear From You"
           title="Send Us a Message"
@@ -139,10 +139,12 @@ export default function ContactForm() {
                 {serverError}
               </p>
             )}
-            <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? "Sending…" : "Submit"}{" "}
-              <i className="fas fa-arrow-right" aria-hidden />
-            </Button>
+            <div className="flex justify-center">
+              <Button type="submit" disabled={isSubmitting} className="px-50">
+                {isSubmitting ? "Sending…" : "Submit"}{" "}
+                <i className="fas fa-arrow-right" aria-hidden />
+              </Button>
+            </div>
           </form>
         )}
       </div>

@@ -64,7 +64,7 @@ export default function AppointmentCta() {
                 alt="Emma Lab doctor"
                 fill
                 sizes="(min-width: 1024px) 40vw, 80vw"
-                className="object-cover object-center"
+                className="object-cover object-[90%_20%]"
               />
             </div>
             <div className="absolute top-6 left-2 sm:-left-2 bg-white text-ink rounded-2xl px-4 py-3 flex items-center gap-3 shadow-lg">
@@ -77,7 +77,7 @@ export default function AppointmentCta() {
             <div className="absolute bottom-6 right-2 sm:-right-2 bg-white text-ink rounded-2xl px-4 py-3 flex items-center gap-3 shadow-lg">
               <i className="fas fa-clock text-accent text-xl" aria-hidden />
               <div className="leading-tight">
-                <strong className="block text-navy">24h</strong>
+                <strong className="block text-navy">&lt;24h</strong>
                 <span className="text-xs text-ink-muted">Turnaround</span>
               </div>
             </div>

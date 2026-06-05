@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { buttonClass } from "@/components/ui/Button";
 
@@ -9,10 +10,11 @@ const DIRECTIONS_URL = `https://www.google.com/maps/dir/?api=1&destination=${MAP
 
 const DETAILS = [
   {
-    icon: "fas fa-phone-alt",
-    label: "Phone",
+    icon: "fab fa-whatsapp",
+    label: "WhatsApp",
     value: "+234 912 091 4837",
-    href: "tel:+2349120914837",
+    href: "https://wa.me/2349120914837",
+    external: true,
   },
   {
     icon: "fas fa-envelope",
@@ -31,7 +33,7 @@ export default function LocationMap() {
   return (
     <section id="location" className="py-12 sm:py-16 lg:py-20 bg-bg-soft">
       <div className="max-w-[var(--container-emma)] mx-auto px-6 grid lg:grid-cols-2 gap-10 items-stretch">
-        <div data-reveal="left" className="relative rounded-3xl overflow-hidden shadow-md min-h-[420px]">
+        <div data-reveal="left" className="relative rounded-2xl overflow-hidden shadow-md min-h-[420px]">
           <iframe
             title="Emma Lab Global Services Location"
             src={`https://maps.google.com/maps?q=${MAPS_QUERY}&z=16&output=embed`}
@@ -47,9 +49,9 @@ export default function LocationMap() {
             aria-label="Open Emma Lab Global Services location in Google Maps"
             className="absolute inset-0 z-10"
           />
-          <div className="absolute bottom-5 left-5 z-20 bg-white rounded-2xl shadow-lg px-4 py-3 flex items-center gap-3 max-w-[260px]">
-            <div className="w-10 h-10 rounded-full bg-navy text-white flex items-center justify-center flex-shrink-0">
-              <i className="fas fa-flask" aria-hidden />
+          <div className="absolute bottom-5 left-5 z-20 bg-white rounded-sm shadow-lg px-4 py-3 flex items-center gap-3 max-w-[260px]">
+            <div className="w-16 h-16 relative flex-shrink-0">
+              <Image src="/images/Emma Logo.png" alt="Emma Lab" fill sizes="64px" className="object-contain" />
             </div>
             <div className="leading-tight">
               <strong className="block text-navy text-sm">Emma Lab</strong>
@@ -80,7 +82,7 @@ export default function LocationMap() {
             className="mb-6"
           />
 
-          <div className="bg-white rounded-2xl shadow-sm p-5 mb-6">
+          <div className="bg-white rounded-2xl shadow-sm p-5 mb-6 mr-20">
             <div className="flex items-center gap-3 mb-3">
               <div className="w-9 h-9 rounded-full bg-accent-light text-accent flex items-center justify-center">
                 <i className="fas fa-map-marker-alt" aria-hidden />
@@ -108,6 +110,7 @@ export default function LocationMap() {
                     <a
                       href={d.href}
                       className="text-sm text-ink hover:text-accent"
+                      {...("external" in d && d.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                     >
                       {d.value}
                     </a>

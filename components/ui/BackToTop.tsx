@@ -32,9 +32,10 @@ export default function BackToTop() {
       <button
         type="button"
         aria-label="Back to top"
-        onClick={() =>
-          window.scrollTo({ top: 0, behavior: "smooth" })
-        }
+        onClick={(e) => {
+          (e.currentTarget as HTMLButtonElement).blur();
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }}
         className="w-12 h-12 rounded-full bg-navy text-white shadow-lg hover:bg-accent transition-colors flex items-center justify-center"
       >
         <i className="fas fa-hand-point-up text-lg" aria-hidden />

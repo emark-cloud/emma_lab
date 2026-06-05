@@ -1,6 +1,7 @@
 import HeroCarousel from "@/components/landing/HeroCarousel";
 import AboutSplit from "@/components/landing/AboutSplit";
 import CtaBanner from "@/components/landing/CtaBanner";
+import ServicesTabs from "@/components/landing/ServicesTabs";
 import FeaturedBundles from "@/components/landing/FeaturedBundles";
 import WhyAccordion from "@/components/landing/WhyAccordion";
 import ContactInfoGrid from "@/components/landing/ContactInfoGrid";
@@ -15,6 +16,7 @@ export default function Home() {
       <HeroCarousel />
       <AboutSplit />
       <CtaBanner />
+      <ServicesTabs showInvestigations={false} />
       <FeaturedBundles />
       <WhyAccordion />
       <ContactInfoGrid />

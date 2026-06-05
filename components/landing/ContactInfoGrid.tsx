@@ -27,7 +27,7 @@ const CARDS = [
 
 export default function ContactInfoGrid() {
   return (
-    <section id="contact" className="py-12 sm:py-16 lg:py-20 bg-bg-soft">
+    <section id="contact" className="py-12 sm:py-16 lg:py-20 bg-white">
       <div className="max-w-[var(--container-emma)] mx-auto px-6">
         <SectionHeader
           eyebrow="Reach Out"
@@ -40,9 +40,9 @@ export default function ContactInfoGrid() {
             <article
               key={c.title}
               data-reveal="up"
-              className="bg-white rounded-2xl p-6 shadow-sm flex flex-col items-start"
+              className="bg-white rounded-2xl p-6 shadow-md flex flex-col items-center text-center"
             >
-              <div className="w-12 h-12 rounded-full bg-accent-light text-accent flex items-center justify-center text-lg mb-4">
+              <div className="w-12 h-12 rounded-full bg-navy text-white flex items-center justify-center text-lg mb-4">
                 <i className={c.icon} aria-hidden />
               </div>
               <h4 className="font-display text-lg text-navy font-bold mb-2">
@@ -55,7 +55,7 @@ export default function ContactInfoGrid() {
                   </span>
                 ))}
               </p>
-              <div className="flex flex-wrap gap-2 mt-auto">
+              <div className="flex flex-wrap gap-2 mt-auto justify-center">
                 {c.ctas.map((cta) => (
                   <a
                     key={cta.href}
@@ -63,7 +63,7 @@ export default function ContactInfoGrid() {
                     {...("external" in cta && cta.external
                       ? { target: "_blank", rel: "noopener noreferrer" }
                       : {})}
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent-light text-accent text-sm font-semibold hover:bg-accent hover:text-white transition-colors"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-navy text-white text-sm font-semibold hover:bg-navy/80 transition-colors"
                   >
                     {cta.label}
                   </a>
@@ -74,9 +74,9 @@ export default function ContactInfoGrid() {
 
           <article
             data-reveal="up"
-            className="bg-white rounded-2xl p-6 shadow-sm flex flex-col items-start"
+            className="bg-white rounded-2xl p-6 shadow-md flex flex-col items-center text-center"
           >
-            <div className="w-12 h-12 rounded-full bg-accent-light text-accent flex items-center justify-center text-lg mb-4">
+            <div className="w-12 h-12 rounded-full bg-navy text-white flex items-center justify-center text-lg mb-4">
               <i className="fas fa-share-alt" aria-hidden />
             </div>
             <h4 className="font-display text-lg text-navy font-bold mb-2">

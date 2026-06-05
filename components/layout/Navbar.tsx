@@ -17,7 +17,7 @@ const NAV_LINKS = [
   { label: "Diagnostic Tests", href: "/diagnostic-tests" },
   { label: "View Plans", href: "/plans" },
   { label: "Career", href: "/careers" },
-  { label: "Contact Us", href: "/#contact" },
+  { label: "Contact Us", href: "/contact" },
 ];
 
 export default function Navbar() {
@@ -112,11 +112,12 @@ export default function Navbar() {
         </Link>
 
         <nav className="hidden lg:flex items-center gap-7 text-sm font-medium">
-          {NAV_LINKS.map(({ label, href }) => (
+          {NAV_LINKS.map(({ label, href, ...rest }) => (
             <Link
               key={href}
               href={href}
               aria-current={isActive(href) ? "page" : undefined}
+              {...("external" in rest && rest.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
               className={clsx(
                 "transition-colors hover:text-accent",
                 isActive(href) ? "text-accent font-semibold" : "text-ink",
@@ -259,11 +260,12 @@ export default function Navbar() {
               Site navigation and account options
             </Dialog.Description>
             <nav className="flex-1 overflow-y-auto px-6 py-5 flex flex-col gap-4 text-sm font-medium">
-              {NAV_LINKS.map(({ label, href }) => (
+              {NAV_LINKS.map(({ label, href, ...rest }) => (
                 <Link
                   key={href}
                   href={href}
                   aria-current={isActive(href) ? "page" : undefined}
+                  {...("external" in rest && rest.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                   className={clsx(
                     "transition-colors hover:text-accent",
                     isActive(href) ? "text-accent font-semibold" : "text-ink",

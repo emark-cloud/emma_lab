@@ -34,7 +34,7 @@ export function SocialIcons({
       variant === "topbar",
     "w-10 h-10 rounded-full bg-white/10 text-white flex items-center justify-center hover:bg-accent transition-colors":
       variant === "footer",
-    "w-9 h-9 rounded-full bg-accent-light text-accent flex items-center justify-center hover:bg-accent hover:text-white transition-colors":
+    "w-9 h-9 rounded-full bg-navy text-white flex items-center justify-center hover:bg-navy/80 transition-colors":
       variant === "card",
   });
 

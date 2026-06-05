@@ -75,7 +75,7 @@ export default function WhyAccordion() {
               <Accordion.Item
                 key={item.title}
                 value={String(i)}
-                className="rounded-xl bg-white border border-border-soft data-[state=open]:border-accent/40 transition-colors overflow-hidden"
+                className="rounded-md bg-white border border-border-soft data-[state=open]:border-accent/40 transition-colors overflow-hidden"
               >
                 <Accordion.Header>
                   <Accordion.Trigger className="w-full flex items-center gap-4 px-5 py-4 text-left group">
@@ -85,10 +85,7 @@ export default function WhyAccordion() {
                     <span className="flex-1 font-semibold text-navy">
                       {item.title}
                     </span>
-                    <span className="w-8 h-8 rounded-full bg-accent-light text-accent flex items-center justify-center group-data-[state=open]:bg-accent group-data-[state=open]:text-white transition-colors">
-                      <i className="fas fa-plus group-data-[state=open]:hidden" />
-                      <i className="fas fa-minus group-data-[state=closed]:hidden" />
-                    </span>
+                    <span className="w-2.5 h-2.5 rounded-full bg-navy/30 group-data-[state=open]:bg-navy flex-shrink-0 transition-colors" />
                   </Accordion.Trigger>
                 </Accordion.Header>
                 <Accordion.Content className="px-5 pb-5 pl-16 text-sm text-ink-body data-[state=open]:animate-in data-[state=closed]:animate-out">

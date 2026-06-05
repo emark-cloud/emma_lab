@@ -44,6 +44,15 @@ export const submitContact = (p: ContactPayload) =>
 export const subscribeNewsletter = (email: string) =>
   postJson<{ message: string }>("/newsletter", { email });
 
+export type BookingPayload = {
+  fullName: string;
+  phone: string;
+  preferredDate: string;
+  preferredTime: string;
+};
+export const submitBooking = (p: BookingPayload) =>
+  postJson<{ message: string }>("/book-appointment", p);
+
 /* ── Checkout: payment ────────────────────────────── */
 export type InitiatePaymentPayload = {
   email: string;

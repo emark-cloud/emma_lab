@@ -15,7 +15,9 @@ export default function TopBar() {
             +234 912 091 4837
           </a>
           <a
-            href="mailto:emmalabglobal@gmail.com?subject=Enquiry%20from%20Emma%20Lab%20Website"
+            href="https://mail.google.com/mail/?view=cm&to=emmalabglobal@gmail.com&su=Enquiry%20from%20Emma%20Lab%20Website"
+            target="_blank"
+            rel="noopener noreferrer"
             className="flex items-center gap-2 hover:text-accent transition-colors"
           >
             <i className="fas fa-envelope text-accent text-xs" aria-hidden />

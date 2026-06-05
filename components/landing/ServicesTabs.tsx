@@ -8,7 +8,7 @@ import { SectionHeader } from "@/components/ui/SectionHeader";
 import { SERVICES } from "@/lib/landing-data";
 import InvestigationsGrid from "./InvestigationsGrid";
 
-export default function ServicesTabs() {
+export default function ServicesTabs({ showInvestigations = true }: { showInvestigations?: boolean }) {
   const [active, setActive] = useState(SERVICES[0].id);
 
   return (
@@ -79,7 +79,7 @@ export default function ServicesTabs() {
                   ))}
                 </ul>
                 <Link
-                  href="/plans"
+                  href="/diagnostic-tests"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border-2 border-navy text-navy text-sm font-semibold hover:bg-navy hover:text-white transition-colors"
@@ -91,7 +91,7 @@ export default function ServicesTabs() {
           ))}
         </Tabs.Root>
 
-        <InvestigationsGrid activeCategory={active} />
+        {showInvestigations && <InvestigationsGrid activeCategory={active} />}
       </div>
     </section>
   );
