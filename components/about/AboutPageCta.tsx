@@ -16,17 +16,21 @@ export default function AboutPageCta() {
           <div className="flex flex-wrap gap-3">
             <Link
               href="/plans"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-7 py-3 rounded-full bg-white text-navy text-sm font-semibold hover:bg-accent-light transition-colors"
             >
               View Wellness Bundles{" "}
               <i className="fas fa-arrow-right" aria-hidden />
             </Link>
-            <Link
-              href="/#contact"
+            <a
+              href="https://wa.me/2349120914837"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-7 py-3 rounded-full border-2 border-white text-white text-sm font-semibold hover:bg-white hover:text-navy transition-colors"
             >
-              <i className="fas fa-phone-alt" aria-hidden /> Contact Us
-            </Link>
+              <i className="fab fa-whatsapp" aria-hidden /> Chat With Us Now
+            </a>
           </div>
         </div>
       </div>

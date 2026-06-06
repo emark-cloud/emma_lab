@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function DirectorMessage() {
   return (
-    <section id="director" className="py-12 sm:py-16 lg:py-20 bg-bg-soft">
+    <section id="director" className="py-12 sm:py-16 lg:py-20 bg-bg-soft scroll-mt-24">
       <div className="max-w-[var(--container-emma)] mx-auto px-6 grid lg:grid-cols-[1.4fr_1fr] gap-12 items-center">
         <div data-reveal="left">
           <p className="text-xs uppercase tracking-[0.2em] font-semibold text-accent mb-3">
@@ -58,10 +58,10 @@ export default function DirectorMessage() {
             </svg>
             <div className="leading-tight">
               <strong className="block text-navy font-display text-lg">
-                Akinlayo Adogo
+                Akinleye Kolapo
               </strong>
               <span className="text-sm text-ink-muted">
-                Director, Emma Lab Global Services Ltd.
+                Managing Director & CEO, Emma Lab Global Services Ltd.
               </span>
             </div>
           </div>
@@ -71,10 +71,10 @@ export default function DirectorMessage() {
           <div className="relative aspect-[3/4] rounded-3xl overflow-hidden shadow-lg">
             <Image
               src="/images/Rectangle 154.png"
-              alt="Akinlayo Adogo, Director of Emma Lab Global Services Ltd."
+              alt="Akinleye Kolapo, Director of Emma Lab Global Services Ltd."
               fill
               sizes="(min-width: 1024px) 35vw, 90vw"
-              className="object-cover"
+              className="object-cover object-[85%_top]"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-navy/40 to-transparent pointer-events-none" />
           </div>

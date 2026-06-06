@@ -82,7 +82,7 @@ export default function LocationMap() {
             className="mb-6"
           />
 
-          <div className="bg-white rounded-2xl shadow-sm p-5 mb-6 mr-20">
+          <div className="bg-white rounded-2xl shadow-sm p-5 mb-6">
             <div className="flex items-center gap-3 mb-3">
               <div className="w-9 h-9 rounded-full bg-accent-light text-accent flex items-center justify-center">
                 <i className="fas fa-map-marker-alt" aria-hidden />

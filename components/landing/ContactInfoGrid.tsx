@@ -1,98 +1,100 @@
-import { SectionHeader } from "@/components/ui/SectionHeader";
 import { SocialIcons } from "@/components/ui/SocialIcons";
-
-const CARDS = [
-  {
-    icon: "fas fa-phone-alt",
-    title: "Call Us",
-    body: ["Laboratory: 24 hours / 7 days", "Ultrasound & X-Ray (Mon–Sat): 8am–5pm"],
-    ctas: [
-      { label: "+234 813 602 5120", href: "tel:+2348136025120" },
-      { label: "+234 803 578 9680", href: "tel:+2348035789680" },
-    ],
-  },
-  {
-    icon: "fab fa-whatsapp",
-    title: "Chat With Us",
-    body: ["We reply within minutes", "during working hours"],
-    ctas: [
-      {
-        label: "+234 912 091 4837",
-        href: "https://wa.me/2349120914837",
-        external: true,
-      },
-    ],
-  },
-];
 
 export default function ContactInfoGrid() {
   return (
-    <section id="contact" className="py-12 sm:py-16 lg:py-20 bg-white">
-      <div className="max-w-[var(--container-emma)] mx-auto px-6">
-        <SectionHeader
-          eyebrow="Reach Out"
-          title="Get In Touch"
-          align="center"
-        />
+    <div data-reveal="left">
+      <p className="text-xs uppercase tracking-[0.2em] font-semibold text-accent mb-2">
+        Contact Details
+      </p>
+      <h2 className="font-display text-2xl md:text-3xl text-navy font-bold mb-8">
+        How to Reach Us
+      </h2>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {CARDS.map((c) => (
-            <article
-              key={c.title}
-              data-reveal="up"
-              className="bg-white rounded-2xl p-6 shadow-md flex flex-col items-center text-center"
+      <div className="divide-y divide-border-soft">
+        {/* Call */}
+        <div className="flex gap-4 py-6 first:pt-0">
+          <div className="w-10 h-10 rounded-full bg-accent-light text-accent flex items-center justify-center flex-shrink-0 mt-0.5">
+            <i className="fas fa-phone-alt text-sm" aria-hidden />
+          </div>
+          <div>
+            <h4 className="font-semibold text-navy mb-1">Call Us</h4>
+            <p className="text-xs text-ink-muted leading-relaxed mb-2">
+              Laboratory: 24 hours / 7 days
+              <br />
+              Ultrasound &amp; X-Ray (Mon–Sat): 8am–5pm
+            </p>
+            <a
+              href="tel:+2348136025120"
+              className="block text-sm text-accent font-medium hover:underline"
             >
-              <div className="w-12 h-12 rounded-full bg-navy text-white flex items-center justify-center text-lg mb-4">
-                <i className={c.icon} aria-hidden />
-              </div>
-              <h4 className="font-display text-lg text-navy font-bold mb-2">
-                {c.title}
-              </h4>
-              <p className="text-sm text-ink-body mb-4">
-                {c.body.map((line, i) => (
-                  <span key={i} className="block">
-                    {line}
-                  </span>
-                ))}
-              </p>
-              <div className="flex flex-wrap gap-2 mt-auto justify-center">
-                {c.ctas.map((cta) => (
-                  <a
-                    key={cta.href}
-                    href={cta.href}
-                    {...("external" in cta && cta.external
-                      ? { target: "_blank", rel: "noopener noreferrer" }
-                      : {})}
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-navy text-white text-sm font-semibold hover:bg-navy/80 transition-colors"
-                  >
-                    {cta.label}
-                  </a>
-                ))}
-              </div>
-            </article>
-          ))}
+              +234 813 602 5120
+            </a>
+            <a
+              href="tel:+2348035789680"
+              className="block text-sm text-accent font-medium hover:underline"
+            >
+              +234 803 578 9680
+            </a>
+          </div>
+        </div>
 
-          <article
-            data-reveal="up"
-            className="bg-white rounded-2xl p-6 shadow-md flex flex-col items-center text-center"
-          >
-            <div className="w-12 h-12 rounded-full bg-navy text-white flex items-center justify-center text-lg mb-4">
-              <i className="fas fa-share-alt" aria-hidden />
-            </div>
-            <h4 className="font-display text-lg text-navy font-bold mb-2">
-              Stay Connected
-            </h4>
-            <p className="text-sm text-ink-body mb-4">
-              Follow us on social for health tips &amp; updates.
+        {/* WhatsApp */}
+        <div className="flex gap-4 py-6">
+          <div className="w-10 h-10 rounded-full bg-teal/10 text-teal flex items-center justify-center flex-shrink-0 mt-0.5">
+            <i className="fab fa-whatsapp text-sm" aria-hidden />
+          </div>
+          <div>
+            <h4 className="font-semibold text-navy mb-1">WhatsApp</h4>
+            <p className="text-xs text-ink-muted mb-2">
+              We reply within minutes during working hours
+            </p>
+            <a
+              href="https://wa.me/2349120914837"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-accent font-medium hover:underline"
+            >
+              +234 912 091 4837
+            </a>
+          </div>
+        </div>
+
+        {/* Email */}
+        <div className="flex gap-4 py-6">
+          <div className="w-10 h-10 rounded-full bg-accent-light text-accent flex items-center justify-center flex-shrink-0 mt-0.5">
+            <i className="fas fa-envelope text-sm" aria-hidden />
+          </div>
+          <div>
+            <h4 className="font-semibold text-navy mb-1">Email</h4>
+            <p className="text-xs text-ink-muted mb-2">
+              We'll get back to you within 24 hours
+            </p>
+            <a
+              href="mailto:emmalabglobal@gmail.com"
+              className="text-sm text-accent font-medium hover:underline"
+            >
+              emmalabglobal@gmail.com
+            </a>
+          </div>
+        </div>
+
+        {/* Social */}
+        <div className="flex gap-4 py-6">
+          <div className="w-10 h-10 rounded-full bg-accent-light text-accent flex items-center justify-center flex-shrink-0 mt-0.5">
+            <i className="fas fa-share-alt text-sm" aria-hidden />
+          </div>
+          <div>
+            <h4 className="font-semibold text-navy mb-1">Follow Us</h4>
+            <p className="text-xs text-ink-muted mb-3">
+              Health tips &amp; updates on social
             </p>
             <SocialIcons
               variant="card"
               only={["X (Twitter)", "Instagram", "Facebook"]}
-              className="mt-auto"
             />
-          </article>
+          </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

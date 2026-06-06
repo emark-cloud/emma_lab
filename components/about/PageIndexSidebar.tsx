@@ -38,28 +38,35 @@ export default function PageIndexSidebar() {
         On This Page
       </p>
       <nav className="flex gap-2 overflow-x-auto lg:flex-col lg:overflow-visible">
-        {ITEMS.map((item) => {
-          const isActive = active === item.id;
+        {ITEMS.map((item, i) => {
+          const isActive = active === item.id && i !== 0;
           return (
             <a
               key={item.id}
               href={`#${item.id}`}
               className={clsx(
-                "flex items-center gap-3 lg:gap-4 px-4 py-2.5 lg:py-3 rounded-xl border transition-colors whitespace-nowrap shrink-0",
+                "group flex items-center gap-3 lg:gap-4 pl-4 pr-6 py-2.5 lg:py-3 rounded-xl border transition-colors whitespace-nowrap shrink-0",
                 isActive
                   ? "bg-navy text-white border-navy"
-                  : "bg-white border-border-soft text-ink hover:border-accent/40",
+                  : "bg-white border-border-soft text-ink hover:bg-navy hover:text-white hover:border-navy",
               )}
             >
               <span
                 className={clsx(
                   "font-display font-bold text-sm",
-                  isActive ? "text-gold" : "text-accent",
+                  isActive ? "text-gold" : "text-accent group-hover:text-white",
                 )}
               >
                 {item.num}
               </span>
               <span className="text-sm font-medium">{item.title}</span>
+              <i
+                className={clsx(
+                  "fas fa-arrow-down ml-auto text-xs rotate-[20deg] transition-all group-hover:text-white group-hover:opacity-100",
+                  isActive ? "text-ink opacity-100" : "text-ink opacity-30",
+                )}
+                aria-hidden
+              />
             </a>
           );
         })}

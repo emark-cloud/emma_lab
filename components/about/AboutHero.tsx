@@ -60,7 +60,7 @@ export default function AboutHero() {
               alt="Emma Lab facility"
               fill
               sizes="(min-width: 640px) 35vw, 90vw"
-              className="object-cover"
+              className="object-cover transition-transform duration-500 hover:scale-110"
             />
             <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur rounded-lg px-3 py-1.5 text-xs font-semibold text-navy">
               Our Facility
@@ -75,7 +75,7 @@ export default function AboutHero() {
               alt="Emma Lab team"
               fill
               sizes="(min-width: 640px) 50vw, 90vw"
-              className="object-cover"
+              className="object-cover transition-transform duration-500 hover:scale-110"
             />
             <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur rounded-lg px-3 py-1.5 text-xs font-semibold text-navy">
               Our Team

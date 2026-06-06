@@ -19,8 +19,14 @@ export default function Home() {
       <ServicesTabs showInvestigations={false} />
       <FeaturedBundles />
       <WhyAccordion />
-      <ContactInfoGrid />
-      <ContactForm />
+      <section id="contact" className="py-14 sm:py-16 lg:py-20 bg-white">
+        <div className="max-w-[var(--container-emma)] mx-auto px-6 grid lg:grid-cols-[5fr_7fr] gap-12 xl:gap-16 items-stretch">
+          <ContactInfoGrid />
+          <div id="message" className="lg:h-full">
+            <ContactForm />
+          </div>
+        </div>
+      </section>
       <LocationMap />
       <AppointmentCta />
       <RevealOnScroll />

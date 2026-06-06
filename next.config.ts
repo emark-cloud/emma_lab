@@ -5,6 +5,10 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "images.unsplash.com" },
+      { protocol: "https", hostname: "medicalworldnigeria.com" },
+      { protocol: "https", hostname: "oyostate.gov.ng" },
+      { protocol: "https", hostname: "upload.wikimedia.org" },
+      { protocol: "https", hostname: "gmldnigeria.org" },
     ],
   },
 };

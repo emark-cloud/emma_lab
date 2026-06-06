@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { contactSchema, type ContactInput } from "@/lib/schemas";
 import { submitContact } from "@/lib/api";
-import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Button } from "@/components/ui/Button";
 
 export default function ContactForm() {
@@ -33,122 +32,122 @@ export default function ContactForm() {
     "w-full px-4 py-3 rounded-sm border border-border-soft bg-white focus:outline-none focus:border-accent transition-colors";
 
   return (
-    <section id="message" className="py-12 sm:py-16 lg:py-20">
-      <div className="max-w-[var(--container-emma)] mx-auto px-6" data-reveal="up">
-        <SectionHeader
-          eyebrow="We'd Love to Hear From You"
-          title="Send Us a Message"
-          description="You can reach us anytime."
-          align="center"
-        />
-
-        {success ? (
-          <div className="bg-white rounded-2xl shadow-sm p-10 text-center">
-            <div className="w-14 h-14 mx-auto rounded-full bg-teal/15 text-teal flex items-center justify-center text-2xl mb-4">
-              <i className="fas fa-check" aria-hidden />
-            </div>
-            <h3 className="font-display text-2xl text-navy font-bold mb-2">
-              Message Sent!
-            </h3>
-            <p className="text-ink-body mb-6">
-              Thank you for reaching out. Our team will get back to you within
-              24 hours.
-            </p>
-            <Button
-              type="button"
-              variant="outline-navy"
-              onClick={() => setSuccess(false)}
-            >
-              Send Another
-            </Button>
+    <div data-reveal="up" className="lg:h-full">
+      {success ? (
+        <div className="bg-white rounded-2xl shadow-sm p-10 text-center">
+          <div className="w-14 h-14 mx-auto rounded-full bg-teal/15 text-teal flex items-center justify-center text-2xl mb-4">
+            <i className="fas fa-check" aria-hidden />
           </div>
-        ) : (
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            noValidate
-            className="bg-white rounded-2xl shadow-sm p-8 md:p-10 space-y-5"
+          <h3 className="font-display text-2xl text-navy font-bold mb-2">
+            Message Sent!
+          </h3>
+          <p className="text-ink-body mb-6">
+            Thank you for reaching out. Our team will get back to you within 24
+            hours.
+          </p>
+          <Button
+            type="button"
+            variant="outline-navy"
+            onClick={() => setSuccess(false)}
           >
-            <div className="grid sm:grid-cols-2 gap-5">
-              <Field
-                label="First Name"
-                error={errors.firstName?.message}
-                input={
-                  <input
-                    {...register("firstName")}
-                    type="text"
-                    placeholder="e.g. Emeka"
-                    autoComplete="given-name"
-                    className={field}
-                  />
-                }
-              />
-              <Field
-                label="Last Name"
-                error={errors.lastName?.message}
-                input={
-                  <input
-                    {...register("lastName")}
-                    type="text"
-                    placeholder="e.g. Okafor"
-                    autoComplete="family-name"
-                    className={field}
-                  />
-                }
-              />
-              <Field
-                label="Your Email"
-                error={errors.email?.message}
-                input={
-                  <input
-                    {...register("email")}
-                    type="email"
-                    placeholder="you@example.com"
-                    autoComplete="email"
-                    className={field}
-                  />
-                }
-              />
-              <Field
-                label="Phone Number"
-                error={errors.phone?.message}
-                input={
-                  <input
-                    {...register("phone")}
-                    type="tel"
-                    placeholder="0801 234 5678"
-                    autoComplete="tel"
-                    className={field}
-                  />
-                }
-              />
-            </div>
+            Send Another
+          </Button>
+        </div>
+      ) : (
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          noValidate
+          className="bg-white rounded-2xl shadow-sm p-8 md:p-10 space-y-5 lg:h-full"
+        >
+          <div className="mb-2">
+            <p className="text-xs uppercase tracking-[0.2em] font-semibold text-accent mb-1">
+              Send a Message
+            </p>
+            <h3 className="font-display text-xl text-navy font-bold">
+              We'd Love to Hear From You
+            </h3>
+          </div>
+
+          <div className="grid sm:grid-cols-2 gap-5">
             <Field
-              label="How can we help?"
-              error={errors.message?.message}
+              label="First Name"
+              error={errors.firstName?.message}
               input={
-                <textarea
-                  {...register("message")}
-                  rows={5}
-                  placeholder="Tell us about your inquiry or what test you'd like to book…"
+                <input
+                  {...register("firstName")}
+                  type="text"
+                  placeholder="e.g. Emeka"
+                  autoComplete="given-name"
                   className={field}
                 />
               }
             />
-            {serverError && (
-              <p className="text-sm text-danger" role="alert">
-                {serverError}
-              </p>
-            )}
-            <div className="flex justify-center">
-              <Button type="submit" disabled={isSubmitting} className="px-50">
-                {isSubmitting ? "Sending…" : "Submit"}{" "}
-                <i className="fas fa-arrow-right" aria-hidden />
-              </Button>
-            </div>
-          </form>
-        )}
-      </div>
-    </section>
+            <Field
+              label="Last Name"
+              error={errors.lastName?.message}
+              input={
+                <input
+                  {...register("lastName")}
+                  type="text"
+                  placeholder="e.g. Okafor"
+                  autoComplete="family-name"
+                  className={field}
+                />
+              }
+            />
+            <Field
+              label="Your Email"
+              error={errors.email?.message}
+              input={
+                <input
+                  {...register("email")}
+                  type="email"
+                  placeholder="you@example.com"
+                  autoComplete="email"
+                  className={field}
+                />
+              }
+            />
+            <Field
+              label="Phone Number"
+              error={errors.phone?.message}
+              input={
+                <input
+                  {...register("phone")}
+                  type="tel"
+                  placeholder="0801 234 5678"
+                  autoComplete="tel"
+                  className={field}
+                />
+              }
+            />
+          </div>
+          <Field
+            label="How can we help?"
+            error={errors.message?.message}
+            input={
+              <textarea
+                {...register("message")}
+                rows={5}
+                placeholder="Tell us about your inquiry or what test you'd like to book…"
+                className={field}
+              />
+            }
+          />
+          {serverError && (
+            <p className="text-sm text-danger" role="alert">
+              {serverError}
+            </p>
+          )}
+          <div className="flex justify-end">
+            <Button type="submit" disabled={isSubmitting} className="px-10">
+              {isSubmitting ? "Sending…" : "Send Message"}{" "}
+              <i className="fas fa-arrow-right" aria-hidden />
+            </Button>
+          </div>
+        </form>
+      )}
+    </div>
   );
 }
 
