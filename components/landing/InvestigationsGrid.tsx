@@ -173,7 +173,7 @@ function InvestigationTile({
   }
 
   return (
-    <li className="bg-white rounded-xl border border-border-soft p-4 flex flex-col gap-3 hover:border-accent/40 hover:shadow-sm transition-all">
+    <li className="bg-white rounded-sm border border-border-soft p-4 flex flex-col gap-3 hover:border-accent/40 hover:shadow-sm transition-all">
       <div className="flex-1">
         {showCategory && (
           <div className="inline-block text-[10px] font-bold uppercase tracking-wider text-accent bg-accent-light px-2 py-0.5 rounded mb-2">

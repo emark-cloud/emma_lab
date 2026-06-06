@@ -74,7 +74,7 @@ export default function DirectorMessage() {
               alt="Akinleye Kolapo, Director of Emma Lab Global Services Ltd."
               fill
               sizes="(min-width: 1024px) 35vw, 90vw"
-              className="object-cover object-[85%_top]"
+              className="object-cover object-[85%_top] transition-transform duration-500 hover:scale-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-navy/40 to-transparent pointer-events-none" />
           </div>

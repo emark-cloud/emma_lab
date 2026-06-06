@@ -8,7 +8,7 @@ export default function AboutHero() {
     <section className="relative bg-gradient-to-br from-bg-soft via-white to-accent-light overflow-hidden">
       <div className="max-w-[var(--container-emma)] mx-auto px-6 py-16 lg:py-20">
         <div className="grid lg:grid-cols-[1.4fr_1fr] gap-12 items-start">
-          <div>
+          <div className="min-w-0">
             <nav className="flex items-center gap-2 text-sm text-ink-muted mb-6">
               <Link href="/" className="hover:text-accent">
                 Home
@@ -24,7 +24,7 @@ export default function AboutHero() {
               </span>
             </h1>
 
-            <p className="mt-6 text-ink-body leading-relaxed max-w-2xl">
+            <p className="mt-6 text-ink-body leading-relaxed max-w-2xl overflow-hidden">
               For over three decades, Emma Lab has proudly served as a
               cornerstone of diagnostic excellence. Building on over 30 years of
               unwavering commitment, we deliver meticulously accurate medical
