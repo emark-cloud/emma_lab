@@ -116,3 +116,57 @@ export async function sendNewsletterEmail(email: string): Promise<void> {
     text: `New newsletter subscriber: ${email}\nReceived: ${new Date().toISOString()}`,
   });
 }
+
+export async function sendApplicationEmail(input: {
+  fullName: string;
+  email: string;
+  phone: string;
+  position: string;
+  coverLetter: string;
+  cvFileName: string;
+  cvBuffer: Buffer;
+  cvMimeType: string;
+}): Promise<void> {
+  const safe = {
+    fullName: escapeHtml(input.fullName),
+    email: escapeHtml(input.email),
+    phone: escapeHtml(input.phone),
+    position: escapeHtml(input.position),
+    coverLetter: escapeHtml(input.coverLetter).replace(/\n/g, "<br/>"),
+  };
+  await getTransporter().sendMail({
+    from: `"Emma Lab Site" <${SMTP_USER}>`,
+    to: "emmalabglobal@gmail.com",
+    replyTo: input.email,
+    subject: `Job Application — ${input.fullName} (${input.position})`,
+    text:
+      `New job application\n\n` +
+      `Name:     ${input.fullName}\n` +
+      `Email:    ${input.email}\n` +
+      `Phone:    ${input.phone}\n` +
+      `Position: ${input.position}\n\n` +
+      `Cover Letter:\n${input.coverLetter}`,
+    html: `<div style="font-family:Segoe UI,sans-serif;max-width:600px;margin:0 auto;padding:24px;background:#f5f8fb;">
+  <div style="background:#fff;border-radius:12px;padding:28px;box-shadow:0 4px 16px rgba(13,45,79,.08);">
+    <h2 style="color:#0d2d4f;margin:0 0 4px;">New Job Application</h2>
+    <p style="color:#5a7a9a;margin:0 0 24px;font-size:14px;">Received via emmalab.com</p>
+    <p><strong>Full Name:</strong> ${safe.fullName}</p>
+    <p><strong>Email:</strong> <a href="mailto:${safe.email}">${safe.email}</a></p>
+    <p><strong>Phone:</strong> ${safe.phone}</p>
+    <p><strong>Position of Interest:</strong> ${safe.position}</p>
+    <hr style="border:none;border-top:1px solid #eef3f9;margin:20px 0;"/>
+    <p><strong>Cover Letter:</strong></p>
+    <p style="white-space:pre-wrap;color:#2d3748;">${safe.coverLetter}</p>
+    <hr style="border:none;border-top:1px solid #eef3f9;margin:20px 0;"/>
+    <p style="font-size:13px;color:#8a9bbf;">CV/Resume attached as: ${escapeHtml(input.cvFileName)}</p>
+  </div>
+</div>`,
+    attachments: [
+      {
+        filename: input.cvFileName,
+        content: input.cvBuffer,
+        contentType: input.cvMimeType,
+      },
+    ],
+  });
+}

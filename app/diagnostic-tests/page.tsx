@@ -13,7 +13,7 @@ export default function DiagnosticTestsPage() {
   return (
     <>
       <DiagnosticTestsHeader />
-      <ServicesTabs />
+      <ServicesTabs showBookButton={false} />
       <RevealOnScroll />
     </>
   );

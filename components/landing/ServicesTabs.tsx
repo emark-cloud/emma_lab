@@ -8,7 +8,7 @@ import { SectionHeader } from "@/components/ui/SectionHeader";
 import { SERVICES } from "@/lib/landing-data";
 import InvestigationsGrid from "./InvestigationsGrid";
 
-export default function ServicesTabs({ showInvestigations = true }: { showInvestigations?: boolean }) {
+export default function ServicesTabs({ showInvestigations = true, showBookButton = true }: { showInvestigations?: boolean; showBookButton?: boolean }) {
   const [active, setActive] = useState(SERVICES[0].id);
 
   return (
@@ -47,9 +47,9 @@ export default function ServicesTabs({ showInvestigations = true }: { showInvest
             <Tabs.Content
               key={s.id}
               value={s.id}
-              className="bg-white rounded-2xl overflow-hidden shadow-md grid md:grid-cols-2 focus:outline-none"
+              className="bg-white rounded-2xl overflow-hidden shadow-md grid md:grid-cols-2 focus:outline-none h-[400px]"
             >
-              <div className="relative min-h-[260px] md:min-h-full">
+              <div className="relative h-full">
                 <Image
                   src={s.image}
                   alt={s.title}
@@ -78,14 +78,16 @@ export default function ServicesTabs({ showInvestigations = true }: { showInvest
                     </li>
                   ))}
                 </ul>
-                <Link
-                  href="/diagnostic-tests"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border-2 border-navy text-navy text-sm font-semibold hover:bg-navy hover:text-white transition-colors"
-                >
-                  Book This Test <i className="fas fa-arrow-right" aria-hidden />
-                </Link>
+                {showBookButton && (
+                  <Link
+                    href="/diagnostic-tests"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border-2 border-navy text-navy text-sm font-semibold hover:bg-navy hover:text-white transition-colors"
+                  >
+                    Book This Test <i className="fas fa-arrow-right" aria-hidden />
+                  </Link>
+                )}
               </div>
             </Tabs.Content>
           ))}
