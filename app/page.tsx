@@ -16,7 +16,7 @@ export default function Home() {
       <HeroCarousel />
       <AboutSplit />
       <CtaBanner />
-      <ServicesTabs showInvestigations={false} />
+      <ServicesTabs showInvestigations={false} imageLabelBottom="bottom-12" imageLabelBottomOverrides={{ microbiology: "bottom-5" }} contentClassName="px-8 pt-5 pb-8" />
       <FeaturedBundles />
       <WhyAccordion />
       <section id="contact" className="py-14 sm:py-16 lg:py-20 bg-white">

@@ -8,7 +8,7 @@ import { SectionHeader } from "@/components/ui/SectionHeader";
 import { SERVICES } from "@/lib/landing-data";
 import InvestigationsGrid from "./InvestigationsGrid";
 
-export default function ServicesTabs({ showInvestigations = true, showBookButton = true }: { showInvestigations?: boolean; showBookButton?: boolean }) {
+export default function ServicesTabs({ showInvestigations = true, showBookButton = true, imageLabelBottom = "bottom-4", imageLabelBottomOverrides = {}, contentClassName = "p-8" }: { showInvestigations?: boolean; showBookButton?: boolean; imageLabelBottom?: string; imageLabelBottomOverrides?: Record<string, string>; contentClassName?: string }) {
   const [active, setActive] = useState(SERVICES[0].id);
 
   return (
@@ -57,12 +57,12 @@ export default function ServicesTabs({ showInvestigations = true, showBookButton
                   sizes="(min-width: 768px) 40vw, 90vw"
                   className="object-cover"
                 />
-                <div className="absolute bottom-4 left-4 bg-navy/90 text-white text-sm font-semibold px-3 py-2 rounded-lg">
+                <div className={`absolute ${imageLabelBottomOverrides[s.id] ?? imageLabelBottom} left-4 bg-navy/90 text-white text-sm font-semibold px-3 py-2 rounded-lg`}>
                   <i className={`${s.icon} mr-2`} aria-hidden />
                   {s.title}
                 </div>
               </div>
-              <div className="p-8">
+              <div className={contentClassName}>
                 <h3 className="font-display text-2xl text-navy font-bold mb-3">
                   {s.title}
                 </h3>
