@@ -13,7 +13,7 @@ export const SERVICES: Service[] = [
     id: "xray",
     label: "X-ray",
     icon: "fas fa-radiation-alt",
-    image: "https://images.unsplash.com/photo-1559757175-5700dde675bc?w=1400&q=95",
+    image: "/images/hero-xray.jpg",
     title: "X-ray",
     blurb:
       "Our state-of-the-art digital X-ray equipment provides clear, high-resolution images to aid swift and accurate diagnosis.",
@@ -30,7 +30,7 @@ export const SERVICES: Service[] = [
     id: "ecg",
     label: "Electrocardiography",
     icon: "fas fa-heartbeat",
-    image: "https://images.unsplash.com/photo-1530026405186-ed1f139313f3?w=1400&q=95",
+    image: "https://images.unsplash.com/photo-1678695972687-033fa0bdbac9?w=1400&q=95",
     title: "Electrocardiography",
     blurb:
       "Our ECG service detects irregular rhythms, heart attacks, and other cardiac conditions with precision.",
@@ -47,7 +47,7 @@ export const SERVICES: Service[] = [
     id: "biochem",
     label: "Clinical Biochemistry",
     icon: "fas fa-flask",
-    image: "https://images.unsplash.com/photo-1582719471384-894fbb16e074?w=1400&q=95",
+    image: "https://images.pexels.com/photos/3825435/pexels-photo-3825435.jpeg?auto=compress&cs=tinysrgb&w=1400",
     title: "Clinical Biochemistry",
     blurb:
       "A full spectrum of biochemistry tests covering organ function, hormones, and metabolic panels.",
@@ -64,7 +64,7 @@ export const SERVICES: Service[] = [
     id: "ultrasound",
     label: "Ultrasound",
     icon: "fas fa-wave-square",
-    image: "https://images.unsplash.com/photo-1666214280557-f1b5022eb634?w=1400&q=95",
+    image: "/images/hero-ultrasound.jpg",
     title: "Ultrasound",
     blurb:
       "Modern ultrasound scanners deliver real-time imagery for abdominal, obstetric, and musculoskeletal assessments.",
@@ -115,7 +115,7 @@ export const SERVICES: Service[] = [
     id: "serology",
     label: "Serology",
     icon: "fas fa-vials",
-    image: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=1400&q=95",
+    image: "https://images.pexels.com/photos/13466253/pexels-photo-13466253.jpeg?auto=compress&cs=tinysrgb&w=1400",
     title: "Serology",
     blurb:
       "Serological tests detect antibodies and antigens to identify infectious diseases and immune responses.",

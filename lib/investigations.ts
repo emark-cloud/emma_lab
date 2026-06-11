@@ -9,6 +9,7 @@
 export type InvestigationCategory =
   | "xray"
   | "ultrasound"
+  | "ecg"
   | "biochem"
   | "haematology"
   | "microbiology"
@@ -34,6 +35,9 @@ const XRAY_PAIR = (key: string, partPlural: string): Investigation["pair"] => ({
 });
 
 export const INVESTIGATIONS: Investigation[] = [
+  { id: "inv-xray-rug", name: "RUG — Retrograde Urethrogram", price: 45000, category: "xray", aliases: ["RUG", "Urethrogram"] },
+  { id: "inv-xray-mucg", name: "MUCG — Micturating Urethrogram", price: 45000, category: "xray", aliases: ["MUCG", "Micturating Cystourethrogram", "MCU"] },
+  { id: "inv-xray-rug-mucg", name: "RUG + MUCG (Combo)", price: 75000, category: "xray", aliases: ["RUG MUCG", "Urethrogram Combo"] },
   { id: "inv-xray-hsg", name: "HSG — Hysterosalpingogram", price: 38000, category: "xray", aliases: ["HSG", "Tubal Patency"] },
   { id: "inv-xray-humerus", name: "Humerus X-ray", price: 12000, category: "xray", pair: XRAY_PAIR("humerus", "Humerus"), aliases: ["Upper Arm X-ray"] },
   { id: "inv-xray-hand", name: "Hand X-ray", price: 12000, category: "xray", pair: XRAY_PAIR("hand", "Hands") },
@@ -104,8 +108,6 @@ export const INVESTIGATIONS: Investigation[] = [
   { id: "inv-hormonal-profile-female", name: "Hormonal Profile (Female)", price: 35000, category: "biochem", aliases: ["Female Hormones", "FSH LH Estradiol Prolactin"] },
   { id: "inv-progesterone-female", name: "Progesterone (Female)", price: 15000, category: "biochem", aliases: ["P4"] },
   { id: "inv-hormonal-profile-male", name: "Hormonal Profile (Male)", price: 50000, category: "biochem", aliases: ["Male Hormones"] },
-  { id: "inv-bilirubin-neonate", name: "Bilirubin (Neonate)", price: 10000, category: "biochem", aliases: ["Neonatal Jaundice", "SBR Neonate"] },
-  { id: "inv-bilirubin-neonate-sho", name: "Bilirubin (Neonate — SHO)", price: 5000, category: "biochem" },
   { id: "inv-cea", name: "CEA — Carcinoembryonic Antigen", price: 20000, category: "biochem", aliases: ["CEA"] },
   { id: "inv-ca-125", name: "CA-125 (Cancer Antigen-125)", price: 20000, category: "biochem", aliases: ["CA125", "Ovarian Cancer Marker"] },
   { id: "inv-rheumatoid-factor", name: "Rheumatoid Factor", price: 20000, category: "biochem", aliases: ["RF", "RhF"] },
@@ -130,10 +132,7 @@ export const INVESTIGATIONS: Investigation[] = [
   { id: "inv-coombs", name: "Indirect Coombs Test", price: 15000, category: "haematology", aliases: ["ICT", "Indirect Antiglobulin"] },
 
   { id: "inv-urinalysis", name: "Urinalysis", price: 4000, category: "microbiology", aliases: ["UA", "Urine Test", "Urine Dipstick"] },
-  { id: "inv-anc-urinalysis", name: "ANC — Urinalysis", price: 2000, category: "microbiology", aliases: ["Antenatal Urine"] },
-  { id: "inv-anc-urinalysis-complete", name: "ANC — Urinalysis (Complete)", price: 4000, category: "microbiology", aliases: ["Antenatal Urine Complete"] },
   { id: "inv-urine-mcs", name: "Urine Microscopy, Culture & Sensitivity (MCS)", price: 8000, category: "microbiology", aliases: ["MSU", "Urine MCS", "Urine Culture"] },
-  { id: "inv-urine-cs", name: "Urine Culture & Sensitivity", price: 8000, category: "microbiology", aliases: ["Urine CS"] },
   { id: "inv-hvs-mcs", name: "HVS — High Vaginal Swab MCS", price: 8000, category: "microbiology", aliases: ["HVS", "Vaginal Swab"] },
   { id: "inv-blood-culture", name: "Blood Culture", price: 15000, category: "microbiology", aliases: ["BC", "Blood C/S"] },
   { id: "inv-stool-microscopy", name: "Stool Microscopy", price: 5000, category: "microbiology", aliases: ["Stool Test", "Ova and Parasite", "O&P"] },
@@ -164,11 +163,16 @@ export const INVESTIGATIONS: Investigation[] = [
   { id: "inv-h-pylori", name: "Antibody to H. Pylori", price: 8000, category: "serology", aliases: ["H Pylori", "Helicobacter Pylori", "Ulcer Test"] },
   { id: "inv-hpv", name: "HPV — Human Papilloma Virus (Antigen)", price: 10000, category: "serology", aliases: ["HPV"] },
   { id: "inv-std-panel", name: "STD Panel", price: 50000, category: "serology", aliases: ["STI Panel", "STD Screen"] },
+
+  // Electrocardiography
+  { id: "inv-ecg-resting", name: "Resting 12-Lead ECG", price: 7000, category: "ecg", aliases: ["ECG", "EKG", "Resting ECG"] },
+  { id: "inv-ecg-stress", name: "Stress ECG", price: 7000, category: "ecg", aliases: ["Exercise ECG", "ETT", "Exercise Tolerance Test", "Stress Test"] },
 ];
 
 export const INVESTIGATION_CATEGORIES: Record<InvestigationCategory, string> = {
   xray: "X-ray",
   ultrasound: "Ultrasound",
+  ecg: "Electrocardiography",
   biochem: "Clinical Biochemistry",
   haematology: "Haematology & Blood Banking",
   microbiology: "Microbiology",

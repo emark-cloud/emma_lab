@@ -28,10 +28,11 @@ function isLabCategory(id: string): id is InvestigationCategory {
 export default function InvestigationsGrid({ activeCategory }: Props) {
   const [query, setQuery] = useState("");
   const [showAll, setShowAll] = useState(false);
+  const [viewingAll, setViewingAll] = useState(false);
 
   const searching = query.trim().length > 0;
 
-  const labCategory = isLabCategory(activeCategory);
+  const labCategory = isLabCategory(activeCategory) && !viewingAll;
   const showCategoryBadge = searching || !labCategory;
 
   const results = useMemo<Investigation[]>(() => {
@@ -52,36 +53,59 @@ export default function InvestigationsGrid({ activeCategory }: Props) {
           <h3 className="font-display text-xl text-navy font-bold">
             {searching
               ? `Search results (${results.length})`
-              : labCategory
-                ? `${INVESTIGATION_CATEGORIES[activeCategory as InvestigationCategory]} tests`
-                : "Browse individual tests"}
+              : viewingAll
+                ? "All tests"
+                : labCategory
+                  ? `${INVESTIGATION_CATEGORIES[activeCategory as InvestigationCategory]} tests`
+                  : "Browse individual tests"}
           </h3>
           <p className="text-sm text-ink-muted mt-1">
             {searching
               ? "Matching tests across every category."
-              : labCategory
-                ? "Individual investigations you can add to your basket."
-                : "Pick a category on the left to narrow these down."}
+              : viewingAll
+                ? "All available tests across every category."
+                : labCategory
+                  ? "Individual investigations you can add to your basket."
+                  : "Pick a category on the left to narrow these down."}
           </p>
         </div>
 
-        <label className="relative w-full sm:w-80 shrink-0">
-          <span className="sr-only">Search tests</span>
-          <i
-            className="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-ink-muted text-sm"
-            aria-hidden
-          />
-          <input
-            type="search"
-            value={query}
-            onChange={(e) => {
-              setQuery(e.target.value);
+        <div className="flex items-center gap-2 w-full sm:w-auto shrink-0">
+          <label className="relative flex-1 sm:w-80">
+            <span className="sr-only">Search tests</span>
+            <i
+              className="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-ink-muted text-sm"
+              aria-hidden
+            />
+            <input
+              type="search"
+              value={query}
+              onChange={(e) => {
+                setQuery(e.target.value);
+                setShowAll(false);
+                setViewingAll(false);
+              }}
+              placeholder="Search tests by name…"
+              className="w-full pl-10 pr-4 py-2.5 rounded-full bg-white border border-border-soft text-sm text-ink placeholder:text-ink-muted focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20"
+            />
+          </label>
+          <button
+            type="button"
+            onClick={() => {
+              setViewingAll((v) => !v);
               setShowAll(false);
+              setQuery("");
             }}
-            placeholder="Search tests by name…"
-            className="w-full pl-10 pr-4 py-2.5 rounded-full bg-white border border-border-soft text-sm text-ink placeholder:text-ink-muted focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20"
-          />
-        </label>
+            className={clsx(
+              "shrink-0 px-4 py-2.5 rounded-full text-sm font-semibold border-2 transition-colors whitespace-nowrap",
+              viewingAll
+                ? "bg-navy text-white border-navy"
+                : "border-navy text-navy hover:bg-navy hover:text-white"
+            )}
+          >
+            View All
+          </button>
+        </div>
       </div>
 
       {results.length === 0 && (
@@ -116,10 +140,7 @@ export default function InvestigationsGrid({ activeCategory }: Props) {
               </>
             ) : (
               <>
-                View all {results.length}
-                {labCategory
-                  ? ` ${INVESTIGATION_CATEGORIES[activeCategory as InvestigationCategory]} tests`
-                  : " tests"}{" "}
+                View all tests{" "}
                 <i className="fas fa-chevron-down text-xs" aria-hidden />
               </>
             )}
