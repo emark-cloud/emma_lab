@@ -37,7 +37,6 @@ export const SERVICES: Service[] = [
     bullets: [
       "Resting 12-Lead ECG",
       "Stress ECG (Exercise Tolerance Test)",
-      "Holter Monitoring",
       "Arrhythmia Detection",
       "Pre-Operative Cardiac Screening",
       "Rapid Interpretation & Reporting",
